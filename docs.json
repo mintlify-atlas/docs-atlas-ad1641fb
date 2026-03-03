@@ -47,6 +47,7 @@
           {
             "group": "Analysis & Training",
             "pages": [
+              "features/playing-games",
               "features/engine-analysis",
               "features/repertoire-training",
               "features/puzzles"

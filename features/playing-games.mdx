@@ -1,0 +1,169 @@
+---
+title: Playing games
+description: Play chess against engines or human opponents with time controls
+---
+
+En Croissant includes a built-in play mode that lets you play chess games against engines or human opponents, with configurable time controls and full game recording.
+
+## Starting a new game
+
+<Steps>
+  <Step title="Open the home screen">
+    From any tab, click the **+** button to open a new tab, which shows the home screen.
+  </Step>
+  
+  <Step title="Select Play Chess">
+    Click the **Play Chess** card to start a new game.
+  </Step>
+  
+  <Step title="Configure your opponent">
+    Choose whether to play against a human or an engine.
+  </Step>
+  
+  <Step title="Set time controls (optional)">
+    Configure time controls for both players, or play without a clock.
+  </Step>
+  
+  <Step title="Start playing">
+    Make your moves on the board. The game is automatically saved.
+  </Step>
+</Steps>
+
+## Playing against an engine
+
+When playing against an engine, you can configure:
+
+- **Engine selection**: Choose from any installed UCI engine
+- **Engine strength**: Configure search depth, time limits, or nodes
+- **Engine settings**: Adjust hash size, threads, and other UCI parameters
+- **Side selection**: Play as White or Black
+
+### Engine modes
+
+<Tabs>
+  <Tab title="Depth mode">
+    The engine searches to a fixed depth (number of half-moves).
+    
+    - **Use for**: Consistent strength, reproducible games
+    - **Example**: Depth 15 for intermediate level
+  </Tab>
+  
+  <Tab title="Time mode">
+    The engine uses a fixed amount of time per move.
+    
+    - **Use for**: Simulating human-like thinking time
+    - **Example**: 5 seconds per move
+  </Tab>
+  
+  <Tab title="Nodes mode">
+    The engine searches a fixed number of positions.
+    
+    - **Use for**: Fine-tuned strength control
+    - **Example**: 1,000,000 nodes
+  </Tab>
+  
+  <Tab title="Movetime mode">
+    The engine makes each move after exactly the specified time.
+    
+    - **Use for**: Quick games with predictable pace
+    - **Example**: 1 second per move
+  </Tab>
+</Tabs>
+
+<Tip>
+  Lower depth values (8-12) create easier opponents, while higher depths (16-20) provide strong play.
+</Tip>
+
+## Playing against a human
+
+When playing against another human player:
+
+- **Time controls**: Set up classical, rapid, or blitz time controls
+- **Increment**: Add time per move (Fischer increment)
+- **Player names**: Optionally name both players for game records
+
+### Time control examples
+
+<CardGroup cols={2}>
+  <Card title="Classical" icon="clock">
+    30 minutes + 30 seconds increment per move
+  </Card>
+  
+  <Card title="Rapid" icon="gauge">
+    10 minutes + 0 seconds increment per move
+  </Card>
+  
+  <Card title="Blitz" icon="bolt">
+    3 minutes + 2 seconds increment per move
+  </Card>
+  
+  <Card title="Bullet" icon="rocket">
+    1 minute + 0 seconds increment per move
+  </Card>
+</CardGroup>
+
+## Time controls
+
+Configure time controls for your games:
+
+- **Initial time**: Starting time on the clock
+- **Increment**: Time added after each move (Fischer timing)
+- **Time units**: Choose seconds or minutes
+
+<Note>
+  Time controls are optional. You can play without a clock by leaving the time control unconfigured.
+</Note>
+
+## Game features
+
+During a game:
+
+- **Move takebacks**: Undo moves during play (configurable)
+- **Position evaluation**: See engine evaluation while playing
+- **Move history**: Navigate through the game moves
+- **Save game**: Games are automatically saved with headers
+
+## After the game
+
+Once a game is complete:
+
+- **Game result**: Mark the result (1-0, 0-1, 1/2-1/2)
+- **Add headers**: Edit player names, event, date
+- **Analyze**: Switch to analysis mode to review the game
+- **Export**: Save as PGN for future study
+
+<Info>
+  All played games are saved and can be reopened from the **Files** tab for later analysis.
+</Info>
+
+## Keyboard shortcuts
+
+- **Flip board**: `F` - Flip the board orientation
+- **Takeback**: `Ctrl+Z` (Windows/Linux) or `Cmd+Z` (macOS) - Undo last move
+- **Navigation**: Arrow keys to move through the game
+
+## Best practices
+
+<Accordion title="Training with engines">
+  Play against engines at slightly higher strength than your level. Use post-game analysis to understand mistakes.
+</Accordion>
+
+<Accordion title="Time management">
+  Practice time controls similar to your online or tournament play to develop time management skills.
+</Accordion>
+
+<Accordion title="Game review">
+  After each game, switch to analysis mode and review critical moments with engine assistance.
+</Accordion>
+
+## Related features
+
+<CardGroup cols={2}>
+  <Card title="Engine Analysis" icon="microchip" href="/features/engine-analysis">
+    Analyze your games with engines
+  </Card>
+  
+  <Card title="Engine Configuration" icon="gear" href="/guides/engine-configuration">
+    Set up and optimize engines
+  </Card>
+</CardGroup>
