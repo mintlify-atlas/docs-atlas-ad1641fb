@@ -1,0 +1,241 @@
+---
+title: Engine Management
+description: Install and configure chess engines for analysis in En Croissant
+---
+
+En Croissant supports multiple chess engines for position analysis, evaluation, and game review. You can install engines from a curated list, add cloud-based engines, or configure your own local UCI-compatible engines.
+
+## Accessing Engine Settings
+
+Navigate to the Engines page to view, install, and configure all your chess engines. Each engine displays:
+
+- Engine name and icon/image
+- ELO rating (if available)
+- Version information
+- File path (for local engines) or URL (for cloud engines)
+
+## Installing Engines
+
+<Tabs>
+  <Tab title="Download (Recommended)">
+    En Croissant provides a curated list of popular chess engines optimized for your platform:
+
+    <Steps>
+      <Step title="Open the Add Engine dialog">
+        Click the "Add New" card in the Engines page.
+      </Step>
+      
+      <Step title="Select the Download tab">
+        Browse the list of available engines with their ELO ratings and download sizes.
+      </Step>
+      
+      <Step title="Install an engine">
+        Click "Install" on your preferred engine. En Croissant will:
+        - Download the engine binary
+        - Extract if compressed
+        - Set executable permissions
+        - Configure default UCI settings
+      </Step>
+    </Steps>
+
+    <Note>
+      Engine availability is automatically filtered based on your operating system and CPU architecture (including BMI2 support for optimized Stockfish builds).
+    </Note>
+  </Tab>
+
+  <Tab title="Cloud Engines">
+    Cloud engines provide analysis without local computation:
+
+    ### Available Cloud Engines
+
+    **ChessDB**
+    - URL: https://chessdb.cn
+    - Large opening book database
+    - Cloud-based evaluation
+
+    **Lichess Cloud**
+    - URL: https://lichess.org
+    - Powered by Stockfish
+    - Free cloud analysis
+
+    <Steps>
+      <Step title="Open the Add Engine dialog">
+        Click "Add New" on the Engines page.
+      </Step>
+      
+      <Step title="Select the Cloud tab">
+        Choose either ChessDB or Lichess Cloud.
+      </Step>
+      
+      <Step title="Click Add">
+        The cloud engine will be immediately available for analysis.
+      </Step>
+    </Steps>
+
+    <Info>
+      Cloud engines require an internet connection and may have rate limits or usage restrictions.
+    </Info>
+  </Tab>
+
+  <Tab title="Local Engine">
+    Add your own UCI-compatible chess engine:
+
+    <Steps>
+      <Step title="Open the Add Engine dialog">
+        Click "Add New" on the Engines page.
+      </Step>
+      
+      <Step title="Select the Local tab">
+        Fill in the engine details:
+        - **Name**: Display name for the engine
+        - **Path**: Full path to the engine executable
+        - **Version**: Engine version (optional)
+        - **ELO**: Estimated rating (optional)
+        - **Image**: Custom icon for the engine (optional)
+      </Step>
+      
+      <Step title="Click Add">
+        En Croissant will validate the engine and load its UCI configuration.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Configuring Engines
+
+Select an engine from the list to configure its settings:
+
+### General Settings
+
+- **Name**: Display name shown in the interface
+- **Version**: Engine version identifier
+- **ELO**: Estimated strength rating
+- **Image**: Custom icon (click to change)
+
+### Search Settings
+
+Configure how the engine searches for best moves:
+
+- **Depth**: Analyze to a specific depth (e.g., 20 moves)
+- **Time**: Analyze for a specific duration (in milliseconds)
+- **Nodes**: Analyze a specific number of positions
+- **Infinite**: Analyze until manually stopped
+
+### Advanced UCI Settings
+
+En Croissant automatically detects and displays all UCI options supported by your engine:
+
+#### Common UCI Options
+
+**MultiPV** (Number of Lines)
+- Number of principal variations to display
+- Range: 1-500
+- Higher values show more alternative moves but slow analysis
+
+**Threads**
+- Number of CPU threads to use
+- Default: Auto-detected based on your CPU
+- More threads = faster analysis
+
+**Hash**
+- Memory allocated for the transposition table (in MB)
+- Default: 128 MB
+- Larger values improve analysis speed but use more RAM
+
+**Syzygy Tablebases**
+- Path to endgame tablebase files
+- Provides perfect play in endgames
+
+<Note>
+  Required settings (MultiPV, Threads, Hash) are automatically configured when installing engines. Other options can be customized based on your needs.
+</Note>
+
+### Engine-Specific Options
+
+Different engines may expose additional options:
+
+- **Check** options: Boolean toggles
+- **Spin** options: Numeric values with min/max ranges
+- **Combo** options: Dropdown selection from predefined values
+- **String** options: Text input fields
+- **File** options: File path selection (click to browse)
+
+## Managing Engines
+
+### Duplicate an Engine
+
+Create a copy of an engine with different settings:
+
+1. Select the engine
+2. Click "Duplicate"
+3. Modify the name and settings as needed
+
+This is useful for creating multiple configurations of the same engine (e.g., fast analysis vs. deep analysis).
+
+### Edit Engine JSON
+
+For advanced users, click "Edit JSON" to directly modify the engine configuration:
+
+```json
+{
+  "type": "local",
+  "id": "uuid",
+  "name": "Stockfish 16",
+  "version": "16",
+  "path": "/path/to/stockfish",
+  "elo": 3600,
+  "settings": [
+    { "name": "MultiPV", "value": 3 },
+    { "name": "Threads", "value": 8 },
+    { "name": "Hash", "value": 2048 }
+  ]
+}
+```
+
+### Reset Engine Settings
+
+Click "Reset" to restore all UCI options to their default values (while preserving required settings).
+
+### Remove an Engine
+
+Click "Remove" to delete an engine from En Croissant. This does not delete the engine binary from your system.
+
+<Warning>
+  If a local engine shows "(file missing)", the executable has been moved or deleted. Update the path or reinstall the engine.
+</Warning>
+
+## UCI Protocol Support
+
+En Croissant fully supports the Universal Chess Interface (UCI) protocol, making it compatible with all standard UCI engines including:
+
+- Stockfish
+- Komodo
+- Leela Chess Zero (Lc0)
+- Dragon
+- And many others
+
+The UCI implementation handles:
+- Engine initialization and communication
+- Position setup via FEN strings
+- Move sequences in UCI notation
+- Real-time evaluation updates
+- Multiple concurrent engine instances
+
+## Engine Storage
+
+Engine configurations are stored in:
+- **Location**: `engines/engines.json` in your engines directory
+- **Format**: JSON with automatic schema validation
+- **Persistence**: Settings are saved automatically
+
+To open your engines folder, click the folder icon next to the "Engines" title.
+
+## Recommended Engines
+
+Based on the default engines list, En Croissant recommends:
+
+- **Stockfish**: The strongest open-source engine (3600+ ELO)
+- **Komodo Dragon**: Strong commercial engine with unique evaluation
+- **Leela Chess Zero**: Neural network-based engine with human-like play
+
+Engine availability and versions are automatically updated based on your platform.

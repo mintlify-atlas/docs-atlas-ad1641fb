@@ -1,80 +1,161 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart
+description: Get started with En Croissant - from installation to analyzing your first game
 ---
 
-## Get started in three steps
+This guide will take you through the basics of using En Croissant, from opening the application to analyzing your first chess game.
 
-Get your documentation site running locally and make your first customization.
+## Prerequisites
 
-### Step 1: Set up your local environment
+Before starting, make sure you have:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
+- Installed En Croissant on your system (see [Installation](/installation))
+- A chess game you want to analyze (PGN file, Lichess/Chess.com URL, or you can use a sample game)
+
+## Your first game analysis
+
+<Steps>
+  <Step title="Launch En Croissant">
+    Open En Croissant from your applications menu or desktop shortcut.
     
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
+    You'll be greeted with the home screen showing several action cards:
+    - **Play Chess** - Start a new game against an engine
+    - **Analysis Board** - Open a blank board for position analysis
+    - **New Repertoire** - Create an opening repertoire
+    - **Import Game** - Import a game from PGN, URL, or FEN
+    - **Puzzle** - Practice tactical puzzles
+  </Step>
+  
+  <Step title="Import a game">
+    Let's import a game to analyze. Click the **Import Game** card.
     
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
+    You have three options for importing:
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+    ### From a PGN file
+    
+    1. Select the **PGN** tab
+    2. Click "Click to select" and choose a `.pgn` file from your computer
+    3. Optionally check "Save to collection" to keep the game in your library
+    4. Click **Import**
+    
+    ### From an online game
+    
+    1. Select the **Link** tab
+    2. Paste a Lichess or Chess.com game URL
+    3. Click **Import**
+    
+    <Tip>
+      You can import games directly from Lichess.org and Chess.com by pasting the game URL. This is perfect for analyzing your recent online games.
+    </Tip>
+    
+    ### From a position (FEN)
+    
+    1. Select the **FEN** tab
+    2. Enter the FEN string of the position you want to analyze
+    3. Click **Import**
+  </Step>
+  
+  <Step title="Explore the interface">
+    Once your game is imported, you'll see the main analysis interface:
+    
+    ### Board view
+    The chessboard is displayed in the center, showing the current position. You can:
+    - Click and drag pieces to make moves
+    - Right-click to draw arrows and highlight squares
+    - Flip the board using the controls below
+    
+    ### Move controls
+    Below the board, you'll find navigation controls:
+    - **⏮** - Go to the start
+    - **◀** - Previous move
+    - **▶** - Next move
+    - **⏭** - Go to the end
+    - Use arrow keys on your keyboard for quick navigation
+    
+    ### Game notation
+    The right panel shows the game moves in standard chess notation. Click any move to jump to that position.
+    
+    ### Information panels
+    The interface includes several panels that provide additional information:
+    - **Info Panel** - Game details, player information, and game metadata
+    - **Database Panel** - Position statistics from chess databases
+    - **Analysis Panel** - Engine evaluation and best moves
+  </Step>
+  
+  <Step title="Analyze with an engine">
+    To get computer analysis of your position:
+    
+    1. Look for the **Analysis Panel** (usually on the right side)
+    2. If no engine is running, click **Start Engine**
+    3. The engine will begin analyzing the position and show:
+       - Evaluation score (e.g., +0.5 means White is slightly better)
+       - Best move suggestions
+       - Principal variation (sequence of best moves)
+    
+    <Note>
+      En Croissant supports multiple engines running simultaneously. You can add more engines from the **Engines** page in the sidebar.
+    </Note>
+  </Step>
+  
+  <Step title="Navigate through the game">
+    Move through the game using:
+    
+    - **Arrow keys** - Navigate moves quickly
+    - **Click on moves** - Jump directly to any position
+    - **Board moves** - Click a suggested engine move to add it as a variation
+    
+    As you navigate, watch how the engine evaluation changes and compare it to the moves played in the game.
+  </Step>
+  
+  <Step title="Check the database">
+    The Database Panel shows how often the current position has been played:
+    
+    1. Look for the **Database Panel**
+    2. You'll see a list of moves played in this position
+    3. Each move shows:
+       - Number of games with that move
+       - Win/draw/loss statistics
+       - Average rating of players who played it
+    
+    <Tip>
+      This is extremely useful for opening preparation - you can see which moves are popular and successful at different rating levels.
+    </Tip>
+  </Step>
+</Steps>
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
+Now that you've analyzed your first game, explore more features:
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Repertoire Training" icon="target" href="/features/repertoire-training">
+    Build and train your opening repertoire with spaced repetition
+  </Card>
+  
+  <Card title="Engine Setup" icon="microchip" href="/features/engines">
+    Install and configure chess engines for deeper analysis
+  </Card>
+  
+  <Card title="Database Search" icon="database" href="/features/database-search">
+    Search positions across millions of games
+  </Card>
+  
+  <Card title="Puzzle Practice" icon="puzzle-piece" href="/features/puzzles">
+    Improve your tactics by solving chess puzzles
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+## Tips for effective analysis
+
+- **Use the engine wisely** - Don't just look at the evaluation. Try to understand why the engine suggests certain moves.
+- **Check multiple moves** - The best move isn't always the only good move. Explore alternatives.
+- **Study your mistakes** - Focus on positions where you made errors. The engine will help you find better moves.
+- **Save important positions** - You can annotate games and save specific positions to your repertoire.
+
+## Getting help
+
+If you need assistance:
+
+- Join the [Discord community](https://discord.gg/tdYzfDbSSW) for real-time help
+- Check the [documentation](https://www.encroissant.org/docs) for detailed guides
+- Report bugs on [GitHub](https://github.com/franciscoBSalgueiro/en-croissant/issues)

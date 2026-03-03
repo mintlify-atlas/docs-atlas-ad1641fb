@@ -1,0 +1,446 @@
+---
+title: Engine Configuration
+description: Advanced engine setup, performance tuning, and optimization for chess analysis
+---
+
+Proper engine configuration can dramatically improve analysis speed and quality. This guide covers everything from basic setup to advanced performance tuning.
+
+## Installing Engines
+
+### From the Engine Library
+
+<Steps>
+  <Step title="Open Engines Page">
+    Navigate to the Engines section from the sidebar, or press `Cmd+,` / `Ctrl+,` for settings and select Engines.
+  </Step>
+  
+  <Step title="Browse Available Engines">
+    The "Web" tab shows curated engines compatible with your system:
+    - Automatically filtered for your OS (Windows/Mac/Linux)
+    - CPU compatibility checked (BMI2 support)
+  </Step>
+  
+  <Step title="Choose an Engine">
+    Popular options include:
+    - **Stockfish**: The strongest open-source engine
+    - **Komodo Dragon**: Strong commercial engine (if available)
+    - Specialty engines for specific styles
+  </Step>
+  
+  <Step title="Install">
+    Click "Install" to download and configure the engine automatically.
+  </Step>
+</Steps>
+
+### Installing Local Engines
+
+If you have a chess engine binary:
+
+<Steps>
+  <Step title="Switch to Local Tab">
+    In the Engines page, click the "Local" tab.
+  </Step>
+  
+  <Step title="Click Add Engine">
+    Click the "+" button to open the engine configuration dialog.
+  </Step>
+  
+  <Step title="Select Engine Binary">
+    - Browse to your engine executable
+    - Windows: `.exe` file
+    - Mac/Linux: executable file (no extension usually)
+  </Step>
+  
+  <Step title="Configure Details">
+    - **Name**: Give your engine a recognizable name
+    - **Version**: Optional version information
+    - En Croissant will auto-detect engine capabilities
+  </Step>
+  
+  <Step title="Load Engine">
+    Click "Add" to make the engine available for analysis.
+  </Step>
+</Steps>
+
+<Note>
+  En Croissant supports UCI (Universal Chess Interface) engines. Most modern chess engines use this protocol.
+</Note>
+
+## Engine Parameters
+
+### Analysis Modes
+
+Choose how long the engine analyzes each position:
+
+<Accordion title="Depth Mode">
+  Analyzes to a specific depth (number of moves ahead).
+  
+  **Use when:**
+  - You want consistent analysis depth across all positions
+  - Comparing multiple engines fairly
+  - Working with tactical puzzles
+  
+  **Recommended values:**
+  - Quick analysis: 20
+  - Standard analysis: 25-30
+  - Deep analysis: 35-40
+  - Maximum: 45+ (very slow)
+</Accordion>
+
+<Accordion title="Time Mode">
+  Analyzes for a fixed duration per position.
+  
+  **Use when:**
+  - You need consistent analysis speed
+  - Creating time-limited reports
+  - Resource-constrained systems
+  
+  **Recommended values:**
+  - Quick: 1-3 seconds
+  - Standard: 5-10 seconds
+  - Deep: 15-30 seconds
+  - Thorough: 60+ seconds
+</Accordion>
+
+<Accordion title="Nodes Mode">
+  Analyzes a specific number of positions.
+  
+  **Use when:**
+  - Precise control over computation
+  - Benchmarking engine performance
+  - Research or advanced analysis
+  
+  **Recommended values:**
+  - Quick: 1M nodes
+  - Standard: 10M nodes
+  - Deep: 100M nodes
+</Accordion>
+
+<Accordion title="Infinite Mode">
+  Analyzes continuously until manually stopped.
+  
+  **Use when:**
+  - Exploring complex positions
+  - Waiting for evaluation to stabilize
+  - Finding hidden tactics
+  
+  **Remember to manually stop the engine when done!**
+</Accordion>
+
+### Number of Lines (MultiPV)
+
+Controls how many best moves the engine shows:
+
+- **1 line**: Show only the engine's top choice (fastest)
+- **2-3 lines**: Show top alternatives (recommended)
+- **4-5 lines**: Show many options (good for studying tactics)
+- **6+ lines**: Rare use; significantly slower
+
+<Note>
+  Each additional line requires roughly 50-70% more computation time. Use fewer lines for faster analysis.
+</Note>
+
+## Performance Tuning
+
+### Hash Size
+
+Engine memory used for position caching:
+
+<Steps>
+  <Step title="Access Engine Settings">
+    Click the settings icon on an engine card in the Analysis panel.
+  </Step>
+  
+  <Step title="Adjust Hash Slider">
+    The hash size slider shows available values (typically 16 MB to 4096 MB).
+  </Step>
+  
+  <Step title="Choose Based on RAM">
+    **Recommended hash sizes:**
+    - 8 GB RAM: 512-1024 MB
+    - 16 GB RAM: 1024-2048 MB
+    - 32 GB RAM: 2048-4096 MB
+    - 64+ GB RAM: 4096-8192 MB
+  </Step>
+</Steps>
+
+**How hash size affects performance:**
+- **Larger hash**: Faster analysis of repeated positions, better for long games
+- **Smaller hash**: Lower memory usage, better for running multiple engines
+- **Too large**: Can actually slow down due to memory management overhead
+
+<Tip>
+  If running multiple engines simultaneously, divide available memory among them. 3 engines with 512 MB each is better than one with 1536 MB and two with 256 MB.
+</Tip>
+
+### Thread Count (Cores)
+
+Number of CPU cores the engine uses:
+
+<Steps>
+  <Step title="Open Thread Settings">
+    In engine settings, find the "Number of Cores" slider.
+  </Step>
+  
+  <Step title="Set Thread Count">
+    **Guidelines:**
+    - **Single engine**: Use 50-75% of your CPU cores
+    - **Multiple engines**: Divide cores among engines
+    - **Background work**: Leave 1-2 cores free for the system
+  </Step>
+</Steps>
+
+**Thread scaling:**
+- 1 → 2 threads: ~90% faster
+- 2 → 4 threads: ~60% faster
+- 4 → 8 threads: ~30% faster
+- 8 → 16 threads: ~15% faster
+
+<Note>
+  Beyond 8 threads, performance gains diminish. More threads use more memory and may reduce efficiency.
+</Note>
+
+### Optimal Configurations
+
+<AccordionGroup>
+  <Accordion title="Laptop (4 cores, 8 GB RAM)">
+    **Single engine:**
+    - Threads: 2-3
+    - Hash: 512 MB
+    - MultiPV: 1-2
+    
+    **Multiple engines:**
+    - 2 engines max
+    - 1-2 threads each
+    - 256 MB hash each
+  </Accordion>
+  
+  <Accordion title="Desktop (8 cores, 16 GB RAM)">
+    **Single engine:**
+    - Threads: 6
+    - Hash: 2048 MB
+    - MultiPV: 3
+    
+    **Multiple engines:**
+    - 2-3 engines
+    - 2-3 threads each
+    - 512-1024 MB hash each
+  </Accordion>
+  
+  <Accordion title="Workstation (16+ cores, 32+ GB RAM)">
+    **Single engine:**
+    - Threads: 12
+    - Hash: 4096 MB
+    - MultiPV: 5
+    
+    **Multiple engines:**
+    - 3-4 engines
+    - 3-4 threads each
+    - 1024-2048 MB hash each
+  </Accordion>
+</AccordionGroup>
+
+## Advanced Engine Options
+
+### Accessing Advanced Settings
+
+<Steps>
+  <Step title="Open Engines Page">
+    Navigate to Engines from the sidebar.
+  </Step>
+  
+  <Step title="Select Engine">
+    Click on any installed engine to view its settings.
+  </Step>
+  
+  <Step title="View Options">
+    Scroll down to see all available UCI options for that engine.
+  </Step>
+</Steps>
+
+### Common Advanced Options
+
+<Accordion title="Syzygy Tablebase Path">
+  Configure endgame tablebases for perfect endgame play:
+  - Download Syzygy tablebases (6-piece or 7-piece)
+  - Set the path to the tablebase files
+  - Engine will use perfect play in tablebase positions
+</Accordion>
+
+<Accordion title="Contempt">
+  Adjusts engine's draw evaluation:
+  - **Positive contempt**: Engine avoids draws, plays for win
+  - **Zero contempt**: Neutral evaluation
+  - **Negative contempt**: Engine accepts draws more readily
+  
+  Useful when analyzing your games to match your playing style.
+</Accordion>
+
+<Accordion title="Ponder">
+  Engine thinks during opponent's time:
+  - Not typically used in analysis mode
+  - More relevant for playing against the engine
+</Accordion>
+
+<Accordion title="Skill Level (Stockfish)">
+  Limits engine strength:
+  - 20: Full strength
+  - 10-19: Various playing levels
+  - 0-9: Beginner levels
+  
+  Useful for practice games, not for analysis.
+</Accordion>
+
+### Syncing Settings Globally
+
+By default, each tab has independent engine settings. To sync:
+
+<Steps>
+  <Step title="Open Engine Settings">
+    In any analysis tab, open the engine settings.
+  </Step>
+  
+  <Step title="Enable Sync">
+    Check "Sync Globally" to use the same settings across all tabs.
+  </Step>
+  
+  <Step title="Configure Once">
+    Changes now apply to this engine in all tabs.
+  </Step>
+</Steps>
+
+<Tip>
+  Use global sync for consistent analysis quality across all your games.
+</Tip>
+
+## Multiple Engine Comparison
+
+### Setting Up Engine Comparison
+
+<Steps>
+  <Step title="Load Multiple Engines">
+    In the Analysis panel, use the engine selector to enable 2-4 engines.
+  </Step>
+  
+  <Step title="Configure Each Engine">
+    Set appropriate resources for each:
+    - Divide CPU cores evenly
+    - Divide hash memory proportionally
+    - Use same depth/time for fair comparison
+  </Step>
+  
+  <Step title="Analyze Position">
+    All engines analyze simultaneously. Compare their evaluations and recommendations.
+  </Step>
+</Steps>
+
+### Interpreting Differences
+
+**Small differences (±0.1)**: Normal evaluation variance, both engines agree
+
+**Medium differences (±0.3-0.5)**: Different positional assessments, worth investigating
+
+**Large differences (±1.0+)**: Significant disagreement:
+- Check depth - one engine may need more time
+- Look for tactics - one engine may have found a hidden move
+- Consider style - some engines are more aggressive
+
+<Note>
+  When engines disagree, the strongest engine at the highest depth is usually correct, but not always! Chess is complex.
+</Note>
+
+### Engine Specialties
+
+- **Stockfish**: Balanced, extremely strong in all phases
+- **Leela Chess Zero**: Neural network, excellent positional understanding
+- **Dragon/Komodo**: Strong tactical vision
+- **Specialized engines**: Some excel at specific types of positions
+
+## Troubleshooting Engine Issues
+
+### Engine Won't Start
+
+<Steps>
+  <Step title="Check File Permissions">
+    Ensure the engine executable has run permissions (Mac/Linux).
+  </Step>
+  
+  <Step title="Verify UCI Compatibility">
+    Only UCI protocol engines are supported. Check engine documentation.
+  </Step>
+  
+  <Step title="Check Console Logs">
+    In the Analysis panel, switch to the "Logs" tab to see error messages.
+  </Step>
+  
+  <Step title="Reinstall Engine">
+    Delete and reinstall the engine from the Engines page.
+  </Step>
+</Steps>
+
+### Engine Crashes or Freezes
+
+- **Reduce resource usage**: Lower threads or hash size
+- **Kill and restart**: Use the stop button on the engine card
+- **Check system resources**: Ensure enough available RAM
+- **Update engine**: Newer versions often fix stability issues
+
+### Slow Analysis
+
+<Accordion title="Too many lines">
+  Reduce MultiPV from 5 to 2-3 for nearly double the speed.
+</Accordion>
+
+<Accordion title="Insufficient threads">
+  Increase thread count if CPU usage is low.
+</Accordion>
+
+<Accordion title="Excessive threads">
+  Decrease threads if you have 8+ allocated; they may be competing.
+</Accordion>
+
+<Accordion title="Hash size issues">
+  Very large hash (4096+ MB) can slow down. Try reducing to 2048 MB.
+</Accordion>
+
+<Accordion title="Multiple engines">
+  Close engines you're not actively using.
+</Accordion>
+
+### Inconsistent Evaluations
+
+- **Low depth**: Increase depth to 25+ for stable evaluations
+- **Tactical positions**: Complex positions need more time/depth
+- **Endgames**: Use tablebase support for perfect endgame evaluations
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Match Resources to Task" icon="sliders">
+    Use quick settings for casual analysis, deep settings for critical positions. Don't waste resources on simple positions.
+  </Card>
+  
+  <Card title="Leave System Resources" icon="server">
+    Reserve 1-2 CPU cores and 2+ GB RAM for the operating system and En Croissant itself.
+  </Card>
+  
+  <Card title="Test Your Configuration" icon="flask">
+    Analyze a known position at different settings to find your optimal balance of speed vs. depth.
+  </Card>
+  
+  <Card title="Update Regularly" icon="arrow-up">
+    Engine updates often bring performance improvements and bug fixes. Check periodically for new versions.
+  </Card>
+  
+  <Card title="Use Global Sync" icon="globe">
+    Enable "Sync Globally" for consistent analysis across all tabs.
+  </Card>
+  
+  <Card title="Monitor Performance" icon="chart-line">
+    Check the Logs tab occasionally to ensure engines are running efficiently without errors.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Create profiles for different scenarios: "Quick Review" (depth 20, 2 threads), "Standard Analysis" (depth 30, 4 threads), "Deep Dive" (depth 40, 8 threads).
+</Tip>

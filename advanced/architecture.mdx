@@ -1,0 +1,244 @@
+---
+title: "Technical Architecture"
+description: "Understand En Croissant's technical architecture, technology stack, and design decisions"
+---
+
+En Croissant is built as a modern cross-platform desktop application using Tauri, combining a React frontend with a high-performance Rust backend.
+
+## Technology Stack
+
+### Frontend Technologies
+
+The frontend is built with modern web technologies:
+
+- **React 19** - UI framework with React Compiler optimization
+- **TypeScript** - Type-safe development
+- **Vite** - Fast build tool and development server
+- **TanStack Router** - Type-safe file-based routing
+- **Mantine UI** - Component library for consistent design
+- **Jotai** - Atomic state management
+- **Chessground** - Lichess's chess board component
+
+### Backend Technologies
+
+The backend leverages Rust's performance and safety:
+
+- **Tauri 2.x** - Cross-platform application framework
+- **Tokio** - Async runtime for concurrent operations
+- **Diesel** - Type-safe database ORM with SQLite
+- **Shakmaty** - Chess logic and move validation
+- **pgn-reader** - Fast PGN file parsing
+- **vampirc-uci** - UCI protocol for chess engine communication
+
+## Frontend Architecture
+
+### Routing
+
+En Croissant uses **TanStack Router** for type-safe, file-based routing. Routes are defined in `src/routes/` and automatically generate type definitions.
+
+### State Management
+
+State is managed with **Jotai**, providing atomic state updates:
+
+- `src/state/atoms.ts` - Global application atoms
+- `src/state/keybinds.ts` - Keyboard shortcut configuration
+- `src/state/store/` - Specialized state stores
+
+### Component Structure
+
+Components are organized by domain:
+
+```
+src/components/
+├── boards/        # Chess board components
+├── common/        # Shared UI components
+├── databases/     # Database management UI
+├── engines/       # Engine configuration UI
+├── files/         # File browser and management
+├── home/          # Home screen components
+├── panels/        # Analysis panels and sidebars
+├── puzzles/       # Puzzle training UI
+├── settings/      # Application settings
+└── tabs/          # Tab management
+```
+
+### Styling
+
+En Croissant uses **Vanilla Extract** for type-safe CSS-in-TypeScript with zero runtime overhead, alongside **Mantine UI** components.
+
+## Backend Architecture
+
+### Rust Module Structure
+
+The backend is organized into focused modules:
+
+```
+src-tauri/src/
+├── main.rs        # Application entry point, Tauri setup
+├── chess.rs       # Engine analysis and best moves
+├── db/            # Database operations
+│   ├── mod.rs     # Database connection management
+│   ├── ops.rs     # CRUD operations
+│   ├── search.rs  # Position and game search
+│   ├── models.rs  # Data models
+│   └── schema.rs  # Database schema
+├── engine/        # Chess engine integration
+│   ├── mod.rs     # Engine management
+│   ├── process.rs # Engine process lifecycle
+│   ├── uci.rs     # UCI protocol implementation
+│   └── types.rs   # Engine data types
+├── game.rs        # Game state and move validation
+├── pgn.rs         # PGN file parsing and writing
+├── opening.rs     # Opening database queries
+├── puzzle.rs      # Puzzle database operations
+├── fs.rs          # File system operations
+├── oauth.rs       # OAuth authentication (Lichess/Chess.com)
+└── error.rs       # Error handling
+```
+
+### Database Layer
+
+En Croissant uses **SQLite** with **Diesel ORM** for:
+
+- Game storage and indexing
+- Position search with custom encoding
+- Player and tournament data
+- Opening repertoires
+- Puzzle databases
+
+Connection pooling (`diesel::r2d2`) ensures efficient concurrent access.
+
+### Engine Integration
+
+Chess engines communicate via the **UCI protocol**:
+
+1. Engine processes are spawned and managed in `engine/process.rs`
+2. UCI commands are sent through `engine/uci.rs`
+3. Analysis results are streamed to the frontend via Tauri events
+4. Multiple engines can analyze simultaneously
+
+## Frontend-Backend Communication
+
+### Tauri Commands
+
+The frontend calls Rust functions through **Tauri commands**:
+
+```typescript
+// Frontend (TypeScript)
+import { commands } from '@/bindings/generated'
+
+const games = await commands.getGames({
+  path: databasePath,
+  query: { /* ... */ }
+})
+```
+
+```rust
+// Backend (Rust)
+#[tauri::command]
+#[specta::specta]
+async fn get_games(
+    path: String,
+    query: GameQuery,
+    state: State<'_, AppState>,
+) -> Result<Vec<NormalizedGame>, String> {
+    // Implementation
+}
+```
+
+### Type Generation
+
+En Croissant uses **specta** and **tauri-specta** to automatically generate TypeScript types from Rust definitions, ensuring type safety across the frontend-backend boundary.
+
+### Event System
+
+For real-time updates, the backend emits events that the frontend subscribes to:
+
+- `BestMovesPayload` - Engine analysis updates
+- `DatabaseProgress` - Long-running database operations
+- `GameMoveEvent` - Game state changes
+- `ClockUpdateEvent` - Chess clock updates
+
+## Key Design Decisions
+
+### Why Tauri?
+
+Tauri provides:
+
+- **Small bundle size** - 5-10MB compared to 100MB+ Electron apps
+- **Native performance** - Rust backend for heavy computation
+- **System integration** - Direct file system and process access
+- **Security** - Rust's memory safety and explicit API exposure
+
+### Why Rust for the Backend?
+
+- **Performance** - Critical for analyzing thousands of games
+- **Concurrency** - Tokio enables efficient async operations
+- **Safety** - Memory safety prevents crashes
+- **Chess libraries** - Excellent chess ecosystem (shakmaty, pgn-reader)
+
+### State Management with Jotai
+
+Jotai was chosen for:
+
+- **Atomic updates** - Fine-grained reactivity
+- **TypeScript support** - First-class type inference
+- **Minimal boilerplate** - Simpler than Redux
+- **React Suspense integration** - Async state handling
+
+### Database: SQLite
+
+SQLite provides:
+
+- **Serverless** - No separate database process
+- **Portable** - Single file databases
+- **Fast** - Optimized for local queries
+- **Reliable** - Battle-tested and stable
+
+## Performance Optimizations
+
+### Frontend
+
+- **React Compiler** - Automatic memoization
+- **Virtual scrolling** - Efficient rendering of large game lists
+- **Code splitting** - Route-based lazy loading
+- **Vanilla Extract** - Zero-runtime CSS
+
+### Backend
+
+- **Connection pooling** - Reuse database connections
+- **Async I/O** - Non-blocking file and network operations
+- **Memory-mapped files** - Fast position search index
+- **Rayon** - Parallel processing for batch operations
+- **Custom encoding** - Compact position representation
+
+## Build System
+
+### Development
+
+```bash
+pnpm dev  # Starts Vite dev server + Tauri in dev mode
+```
+
+Vite provides hot module replacement for rapid frontend development while Tauri hot-reloads on Rust changes.
+
+### Production
+
+```bash
+pnpm build  # Builds optimized bundle
+```
+
+The build process:
+
+1. TypeScript compilation and type checking
+2. Vite bundles and optimizes frontend
+3. Cargo builds optimized Rust binary
+4. Tauri packages the application for the target platform
+
+## Further Reading
+
+- [Tauri Documentation](https://tauri.app/)
+- [React Documentation](https://react.dev/)
+- [Rust Book](https://doc.rust-lang.org/book/)
+- [TanStack Router](https://tanstack.com/router)
+- [Jotai Documentation](https://jotai.org/)

@@ -1,0 +1,371 @@
+---
+title: "Contributing Guide"
+description: "Learn how to contribute to En Croissant development"
+---
+
+We welcome contributions to En Croissant! This guide will help you get started with contributing code, bug fixes, and features.
+
+## Getting Started
+
+Before you start working on a contribution, check the [issues page](https://github.com/franciscoBSalgueiro/en-croissant/issues). It's possible someone else is already working on something similar, or perhaps there is a reason that feature isn't implemented. The maintainers will point you in the right direction.
+
+<Note>
+If you have questions, join [the Discord server](https://discord.gg/tdYzfDbSSW) to chat with the community and maintainers.
+</Note>
+
+## Development Setup
+
+<Steps>
+  <Step title="Fork the Repository">
+    Fork the [En Croissant repository](https://github.com/franciscoBSalgueiro/en-croissant) on GitHub to your account.
+  </Step>
+
+  <Step title="Clone Your Fork">
+    Clone your forked repository:
+
+    ```bash
+    git clone git@github.com:{your_username}/en-croissant.git
+    ```
+  </Step>
+
+  <Step title="Navigate to the Directory">
+    ```bash
+    cd en-croissant
+    ```
+  </Step>
+
+  <Step title="Create a Feature Branch">
+    Create a new branch off the `master` branch:
+
+    ```bash
+    git checkout -b your-feature-name
+    ```
+
+    Use a descriptive branch name like `fix-database-search` or `add-dark-theme`.
+  </Step>
+
+  <Step title="Install Dependencies">
+    ```bash
+    pnpm i
+    ```
+
+    This installs all required dependencies for development.
+  </Step>
+
+  <Step title="Start Development">
+    Open the code in your preferred IDE and start contributing!
+
+    ```bash
+    pnpm dev  # Start development server
+    ```
+  </Step>
+</Steps>
+
+## Development Commands
+
+Here are the key commands you'll use during development:
+
+### `pnpm i`
+
+Installs all dependencies. Run this after cloning or when pulling new changes.
+
+### `pnpm dev`
+
+Starts the app in development mode to see changes in real time. This launches:
+
+- Vite development server with hot module replacement
+- Tauri window with the application
+- Automatic recompilation on file changes
+
+### `pnpm test`
+
+Runs all tests, generating a report. En Croissant uses Vitest for unit testing.
+
+```bash
+pnpm test
+```
+
+### `pnpm format`
+
+Formats the project according to the project guidelines using Biome:
+
+```bash
+pnpm format
+```
+
+This should be run before committing to ensure consistent code style.
+
+### `pnpm lint:fix`
+
+Lints the project according to the project guidelines and auto-fixes issues:
+
+```bash
+pnpm lint:fix
+```
+
+### `pnpm build`
+
+Builds the entire app from source. The built app can be found at `src-tauri/target/release/`:
+
+```bash
+pnpm build
+```
+
+Use this to test production builds locally.
+
+## Code Style Guidelines
+
+### TypeScript
+
+- **Use TypeScript** for all new code
+- **Enable strict mode** - The project uses strict TypeScript settings
+- **Prefer type inference** - Let TypeScript infer types when possible
+- **Use interfaces** for object shapes
+- **Avoid `any`** - Use `unknown` if you must have a dynamic type
+
+### React
+
+- **Use functional components** with hooks
+- **Prefer composition** over complex prop drilling
+- **Use Jotai atoms** for shared state
+- **Memoize expensive computations** with `useMemo` and `useCallback`
+
+### Rust
+
+- **Follow Rust conventions** - Use `cargo fmt` and `cargo clippy`
+- **Handle errors properly** - Return `Result` types from Tauri commands
+- **Use async/await** for I/O operations
+- **Document public APIs** with doc comments
+
+### Formatting
+
+En Croissant uses **Biome** for JavaScript/TypeScript formatting and linting:
+
+```bash
+pnpm format      # Format code
+pnpm lint:fix    # Fix linting issues
+```
+
+For Rust, the standard tools are used:
+
+```bash
+cargo fmt        # Format Rust code
+cargo clippy     # Lint Rust code
+```
+
+## Internationalization (i18n)
+
+En Croissant supports multiple languages. When adding user-facing text:
+
+### Use Translation Keys
+
+```typescript
+import { useTranslation } from 'react-i18next'
+
+const { t } = useTranslation()
+
+return <Button>{t('common.save')}</Button>
+```
+
+### Extract Translation Strings
+
+After adding translation keys, extract them:
+
+```bash
+pnpm i18n:extract
+```
+
+This updates the translation files in `src/translation/`.
+
+### Check Translation Status
+
+```bash
+pnpm i18n:status
+```
+
+This shows which translations are missing for each language.
+
+## Testing
+
+En Croissant uses **Vitest** for unit testing.
+
+### Writing Tests
+
+Create test files alongside your code with `.test.ts` or `.test.tsx` extension:
+
+```typescript
+// utils/chess.test.ts
+import { describe, it, expect } from 'vitest'
+import { parseMove } from './chess'
+
+describe('parseMove', () => {
+  it('should parse standard algebraic notation', () => {
+    const move = parseMove('e4')
+    expect(move).toBeDefined()
+  })
+})
+```
+
+### Running Tests
+
+```bash
+pnpm test        # Run all tests
+pnpm test --ui   # Run with UI
+pnpm test --watch # Watch mode
+```
+
+## Project Structure
+
+Understanding the project structure helps you find where to make changes:
+
+### Frontend (`src/`)
+
+- **`src/routes/`** - Page components (file-based routing)
+- **`src/components/`** - Reusable UI components
+- **`src/state/`** - Jotai atoms and state management
+- **`src/utils/`** - Utility functions
+- **`src/translation/`** - i18n translation files
+- **`src/bindings/`** - Auto-generated TypeScript types from Rust
+
+### Backend (`src-tauri/src/`)
+
+- **`main.rs`** - Application entry point and Tauri setup
+- **`chess.rs`** - Chess engine integration
+- **`db/`** - Database operations and queries
+- **`engine/`** - UCI engine communication
+- **`game.rs`** - Game state management
+- **`pgn.rs`** - PGN file parsing
+
+## Submitting a Pull Request
+
+<Steps>
+  <Step title="Implement Your Changes">
+    Make your changes following the code style guidelines and development workflow.
+  </Step>
+
+  <Step title="Test Your Changes">
+    Before submitting, build the app and test every feature you've contributed to:
+
+    ```bash
+    pnpm build
+    ```
+
+    Test the built application in `src-tauri/target/release/`.
+  </Step>
+
+  <Step title="Format and Lint">
+    Ensure your code is properly formatted and linted:
+
+    ```bash
+    pnpm format
+    pnpm lint:fix
+    ```
+  </Step>
+
+  <Step title="Commit Your Changes">
+    Commit your changes with a clear, descriptive message:
+
+    ```bash
+    git add .
+    git commit -m "Add dark theme support for analysis board"
+    ```
+  </Step>
+
+  <Step title="Push to Your Fork">
+    ```bash
+    git push origin your-feature-name
+    ```
+  </Step>
+
+  <Step title="Create Pull Request">
+    Go to [the comparison page](https://github.com/franciscoBSalgueiro/en-croissant/compare) and select the branch you just pushed in the `compare:` dropdown.
+
+    Write a clear description of your changes:
+
+    - **What** does this PR do?
+    - **Why** is this change needed?
+    - **How** does it work?
+    - **Screenshots** (if applicable)
+  </Step>
+
+  <Step title="Wait for Review">
+    The maintainers will review your PR and provide feedback. Be responsive to comments and requested changes.
+  </Step>
+</Steps>
+
+## Pull Request Guidelines
+
+### Good PR Practices
+
+- **Keep PRs focused** - One feature or fix per PR
+- **Write clear commit messages** - Explain what and why
+- **Add tests** - If adding new functionality
+- **Update documentation** - If changing behavior
+- **Include screenshots** - For UI changes
+- **Test thoroughly** - Ensure nothing breaks
+
+### PR Title Format
+
+Use descriptive titles:
+
+- `feat: Add opening repertoire trainer`
+- `fix: Resolve database search crash on empty query`
+- `docs: Update installation instructions`
+- `refactor: Simplify engine communication logic`
+- `perf: Optimize game list rendering`
+
+## Code Architecture
+
+En Croissant uses:
+
+- **Rust** for interacting with the filesystem, chess engines, and databases
+- **React with Vite** (using TypeScript) for displaying the GUI
+
+### Where to Find Code
+
+- **Rust code**: `src-tauri/src/`
+- **React code**: `src/`
+
+For more details, see the [Technical Architecture](/advanced/architecture) guide.
+
+## Communication
+
+### Asking Questions
+
+If you need help:
+
+- Check [existing issues](https://github.com/franciscoBSalgueiro/en-croissant/issues)
+- Ask in [Discord](https://discord.gg/tdYzfDbSSW)
+- Comment on the relevant issue or PR
+
+### Reporting Bugs
+
+When reporting bugs:
+
+1. Check if the bug is already reported
+2. Provide steps to reproduce
+3. Include your OS and En Croissant version
+4. Add screenshots or error messages if applicable
+
+### Suggesting Features
+
+1. Check if the feature is already requested
+2. Describe the problem it solves
+3. Explain how it should work
+4. Provide mockups if applicable
+
+## Community
+
+Join the En Croissant community:
+
+- **Discord**: [discord.gg/tdYzfDbSSW](https://discord.gg/tdYzfDbSSW)
+- **GitHub Discussions**: Share ideas and feedback
+- **Issue Tracker**: Report bugs and request features
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the GPL-3.0 License.
+
+## Thank You!
+
+Thank you for contributing to En Croissant! Every contribution, no matter how small, helps make the project better for everyone.

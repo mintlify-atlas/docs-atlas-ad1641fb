@@ -1,0 +1,222 @@
+---
+title: Puzzles
+description: Solve tactical puzzles and improve your chess skills
+---
+
+Sharpen your tactical skills by solving chess puzzles. En Croissant includes a full-featured puzzle trainer with support for custom puzzle databases and detailed progress tracking.
+
+## Getting started
+
+<Steps>
+  <Step title="Select or add a puzzle database">
+    Choose a puzzle database from the dropdown menu, or click **+ Add New** to import a new database.
+  </Step>
+  <Step title="Start solving">
+    The app loads a random puzzle from your selected rating range. The opponent's first move is already played.
+  </Step>
+  <Step title="Find the best move">
+    Analyze the position and make the winning move. Continue the sequence until the puzzle is complete.
+  </Step>
+  <Step title="Get feedback">
+    Correct moves advance the puzzle. Incorrect moves show the solution and mark the puzzle as failed.
+  </Step>
+</Steps>
+
+## Puzzle database
+
+En Croissant uses SQLite databases to store puzzles:
+
+### Database format
+
+Puzzle databases include:
+- **Puzzle ID**: Unique identifier for each puzzle
+- **FEN position**: Starting position after opponent's move
+- **Solution moves**: Sequence of moves in UCI format
+- **Rating**: Difficulty rating (typically 600-2800)
+- **Themes**: Tactical motifs (fork, pin, discovered attack, etc.)
+
+### Adding databases
+
+Click the **+ Add New** option in the database selector to:
+1. Import `.db3` puzzle database files
+2. Download from compatible sources
+3. Create custom puzzle collections
+
+<Info>
+  The puzzle database shows total count and storage size in the database information.
+</Info>
+
+## Puzzle settings
+
+Customize your puzzle experience in the settings panel:
+
+### Rating range
+
+Adjust the difficulty slider to filter puzzles:
+- **Range**: 600 to 2800
+- **Default**: Your preferred rating range
+- **Progressive mode**: Automatically adjusts based on success
+
+<Tabs>
+  <Tab title="Fixed range">
+    Set a static rating range for consistent difficulty. All puzzles come from this range.
+  </Tab>
+  <Tab title="Progressive mode">
+    Enable **Progressive** to automatically increase difficulty:
+    - Start with your selected range
+    - Each correct puzzle increases the range by 50-100 points
+    - Practice progressively harder puzzles as you improve
+  </Tab>
+</Tabs>
+
+### Puzzle themes
+
+Filter puzzles by tactical theme:
+
+- **Available themes**: Displayed if your database supports themes
+- **Theme filter**: Select specific tactical patterns to practice
+- **Common themes**: Fork, pin, skewer, discovered attack, mate in 2, endgame, etc.
+
+<Note>
+  Theme support requires an updated puzzle database format. Older databases show a warning if themes are unavailable.
+</Note>
+
+### Display options
+
+<Tabs>
+  <Tab title="Hide rating">
+    Enable **Hide rating** to solve puzzles without seeing the difficulty. The rating reveals after completion.
+  </Tab>
+  <Tab title="Track time">
+    Enable **Track puzzle time** to measure your solving speed:
+    - Timer starts when puzzle loads
+    - Pauses when puzzle is complete
+    - Shows elapsed time on each puzzle
+    - Calculates average time for solved puzzles
+  </Tab>
+  <Tab title="Auto-advance">
+    Enable **Jump to next puzzle immediately** to automatically load the next puzzle after completing one.
+  </Tab>
+</Tabs>
+
+## Solving puzzles
+
+### Puzzle interface
+
+The puzzle board shows:
+- **Side to move**: Displayed at the bottom ("White to move" or "Black to move")
+- **Puzzle rating**: Difficulty level (or "?" if hidden)
+- **Board position**: With opponent's last move already played
+
+### Making moves
+
+1. **Click your piece**: Select the piece to move
+2. **Click destination**: Complete the move
+3. **Computer response**: Opponent plays their move automatically
+4. **Continue sequence**: Keep making moves until puzzle completes
+
+### Feedback
+
+<Tabs>
+  <Tab title="Correct">
+    ✓ Green checkmark appears. Continue making moves until the full sequence is complete.
+  </Tab>
+  <Tab title="Incorrect">
+    ✗ Red X appears with the correct move displayed. The puzzle is marked as failed.
+  </Tab>
+  <Tab title="Complete">
+    Puzzle marked as correct and themes are displayed (if available).
+  </Tab>
+</Tabs>
+
+## Progress tracking
+
+Monitor your performance with detailed statistics:
+
+### Session statistics
+
+- **Accuracy**: Percentage of puzzles solved correctly
+- **Streak**: Current consecutive correct puzzles (with flame icon 🔥)
+- **Average time**: Mean solving time for completed puzzles (when time tracking enabled)
+
+### Puzzle history
+
+The history bar at the bottom shows:
+- All puzzles attempted in the current session
+- Color-coded by result (green = correct, red = incorrect, gray = incomplete)
+- Puzzle ratings as labels
+- Click any puzzle to revisit it
+
+<Tip>
+  Build a long streak by solving puzzles consistently. Your current and best streaks are tracked throughout the session.
+</Tip>
+
+## Additional features
+
+### View solution
+
+Click **View Solution** to:
+- Automatically play through the correct move sequence
+- See the full tactical pattern
+- Mark the puzzle as incorrect (if unsolved)
+- Computer plays moves with delays to show the combination
+
+### Analyze position
+
+Click the magnifying glass icon to:
+- Open the current puzzle in a new analysis tab
+- Use engine analysis to understand the position
+- Explore alternative moves and variations
+- Learn why the puzzle solution works
+
+### Generate new puzzle
+
+Click the + icon to:
+- Skip the current puzzle
+- Load a fresh random puzzle from the database
+- Keep practicing without completing the current puzzle
+
+### Clear session
+
+Click the X icon to:
+- Reset all session statistics
+- Clear puzzle history
+- Start a fresh practice session
+
+## Adding custom puzzles
+
+Create custom puzzle databases:
+
+1. Use the **Add Puzzle** feature (if available)
+2. Import puzzle sets in compatible formats
+3. Build custom tactical training databases
+
+### Database management
+
+From the puzzle interface:
+- **Select database**: Switch between multiple puzzle collections
+- **Delete database**: Remove databases you no longer need
+- **Database info**: View puzzle count and storage size
+
+<Warning>
+  Deleting a puzzle database is permanent and removes all puzzles from that collection.
+</Warning>
+
+## Keyboard shortcuts
+
+- **Arrow keys**: Navigate through puzzle history
+- **Space**: Skip to next position (when incorrect)
+- **Escape**: Exit puzzle mode
+
+## Tips for improvement
+
+1. **Focus on themes**: Practice specific tactical patterns to strengthen weaknesses
+2. **Take your time**: Accuracy matters more than speed initially
+3. **Learn from mistakes**: Use **View Solution** to understand missed puzzles
+4. **Progressive difficulty**: Enable progressive mode to gradually increase challenge
+5. **Regular practice**: Solve puzzles daily for consistent improvement
+6. **Analyze deeply**: Use the analysis feature to understand complex positions
+
+<Tip>
+  When you solve a puzzle incorrectly, don't just skip it. Click **View Solution** to see the full combination and learn from the tactical pattern.
+</Tip>

@@ -1,0 +1,311 @@
+---
+title: Keyboard Shortcuts
+description: Complete reference for all keyboard shortcuts and hotkeys in En Croissant
+---
+
+Master En Croissant's keyboard shortcuts to analyze games faster and more efficiently. All shortcuts can be customized in Settings.
+
+## File Operations
+
+| Action | Mac | Windows/Linux | Description |
+|--------|-----|---------------|-------------|
+| New tab | `Cmd+T` | `Ctrl+T` | Create a new analysis tab |
+| Close tab | `Cmd+W` | `Ctrl+W` | Close the current tab |
+| Open file | `Cmd+O` | `Ctrl+O` | Open a PGN file |
+| Save file | `Cmd+S` | `Ctrl+S` | Save current game/analysis to PGN |
+| Settings | `Cmd+,` | `Ctrl+,` | Open application settings |
+| Reload app | `Cmd+R` | `Ctrl+R` | Reload the application |
+
+<Tip>
+  Press `Cmd+T` / `Ctrl+T` quickly to start analyzing a new position or create a new repertoire file.
+</Tip>
+
+## Tab Navigation
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Cycle tabs forward | `Ctrl+Tab` | Switch to the next tab |
+| Cycle tabs backward | `Ctrl+Shift+Tab` | Switch to the previous tab |
+
+<Note>
+  Tab cycling wraps around - pressing next on the last tab goes to the first tab.
+</Note>
+
+## Move Navigation
+
+Navigate through games and variations efficiently:
+
+### Basic Navigation
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Next move | `→` | Move forward one move |
+| Previous move | `←` | Move backward one move |
+| Go to game start | `Shift+↑` | Jump to the starting position |
+| Go to game end | `Shift+↓` | Jump to the final position |
+
+### Variation Navigation
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Go to branch start | `↑` | Jump to the start of the current variation |
+| Go to branch end | `↓` | Jump to the end of the current variation |
+| Next variation | `C` | Switch to the next sibling variation |
+| Previous variation | `X` | Switch to the previous sibling variation |
+| Next branching point | `Shift+→` | Jump to the next move with variations |
+| Previous branching point | `Shift+←` | Jump to the previous move with variations |
+
+<Accordion title="Understanding Variation Navigation">
+  **Branch navigation** (`↑` and `↓`):
+  - Moves within the current variation line
+  - Useful for quickly reviewing a single variation
+  
+  **Variation switching** (`C` and `X`):
+  - Switches between alternative moves at the current position
+  - Stays at the same position, changes which line you're viewing
+  
+  **Branching point jumps** (`Shift+←` and `Shift+→`):
+  - Skips to positions where the game has multiple continuations
+  - Efficient for finding critical decision points
+</Accordion>
+
+### Editing
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Delete move | `Delete` / `Backspace` | Delete the current move and all following moves in the variation |
+
+<Warning>
+  Deleting a move is permanent and cannot be undone. Save your file frequently.
+</Warning>
+
+## Board Controls
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Flip board | `F` | Swap board orientation (White/Black perspective) |
+| Toggle eval bar | `Z` | Show/hide the evaluation bar and engine arrows |
+| Clear shapes | `Ctrl+L` | Remove all drawn arrows and highlighted squares |
+
+<Tip>
+  Use `F` to quickly flip the board when analyzing from your opponent's perspective.
+</Tip>
+
+## Analysis Panel
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Practice tab | `P` | Open the Practice/Repertoire panel |
+| Analysis tab | `A` | Open the Analysis/Engine panel |
+| Database tab | `B` | Open the Database reference panel |
+| Annotate tab | `D` | Open the Annotation panel |
+| Info tab | `I` | Open the Game Info panel |
+
+### Engine Controls
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Toggle all engines | `Ctrl+A` | Enable or pause all loaded engines at once |
+
+<Note>
+  Panel shortcuts work from anywhere in the app, making it easy to switch contexts quickly.
+</Note>
+
+## Move Annotations
+
+Add standard chess annotations instantly:
+
+| Annotation | Shortcut | Symbol | Meaning |
+|------------|----------|--------|----------|
+| Brilliant move | `1` | ‼ | Exceptional, hard-to-find move |
+| Good move | `2` | ! | Strong move |
+| Interesting move | `3` | !? | Enterprising, unclear consequences |
+| Dubious move | `4` | ?! | Questionable, probably inferior |
+| Mistake | `5` | ? | Clear error |
+| Blunder | `6` | ?? | Serious mistake, game-changing |
+
+<Tip>
+  Press the number key again to remove the annotation. You can toggle annotations on and off quickly.
+</Tip>
+
+## Repertoire Practice
+
+Shortcuts active during practice mode:
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Rate "Again" | `1` | Mark position as completely forgotten |
+| Rate "Hard" | `2` | Mark position as difficult to recall |
+| Rate "Good" | `3` | Mark position as remembered with effort |
+| Rate "Easy" | `4` | Mark position as instantly recalled |
+| Skip position | `Space` | Move to next position after incorrect answer |
+| Toggle blur | `Ctrl+B` | Show/hide piece visibility during practice |
+
+<Accordion title="Rating Shortcuts in Practice">
+  After answering correctly, use number keys `1-4` to rate difficulty:
+  
+  - **`1` (Again)**: You forgot completely → Review soon (minutes/hours)
+  - **`2` (Hard)**: You struggled → Review in days
+  - **`3` (Good)**: Recalled with effort → Review in weeks
+  - **`4` (Easy)**: Instant recall → Review in months
+  
+  Accurate ratings optimize your review schedule for long-term retention.
+</Accordion>
+
+## Game Database Navigation
+
+When browsing games in a database:
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Select next game | `↓` | Move selection down |
+| Select previous game | `↑` | Move selection up |
+| Next game | `Page Down` | Navigate to next game in filtered list |
+| Previous game | `Page Up` | Navigate to previous game in filtered list |
+| Search | `Cmd+F` / `Ctrl+F` | Focus the search/filter input |
+
+<Tip>
+  Use `↑` and `↓` to quickly browse through game previews, then double-click or press Enter to open.
+</Tip>
+
+## Visual Annotations
+
+Drawing on the board:
+
+| Action | Mouse/Trackpad | Description |
+|--------|----------------|-------------|
+| Draw arrow | Right-click + drag | Draw an arrow from one square to another |
+| Highlight square | Right-click | Highlight a single square |
+| Clear all shapes | `Ctrl+L` | Remove all arrows and highlights |
+
+<Note>
+  Arrows and highlights are saved per position. They reappear when you return to that move.
+</Note>
+
+## Search and Filter
+
+| Context | Shortcut | Description |
+|---------|----------|-------------|
+| Settings search | `Cmd+F` / `Ctrl+F` | Focus settings search box |
+| Database filter | `Cmd+F` / `Ctrl+F` | Focus game filter input |
+| File browser | `Cmd+F` / `Ctrl+F` | Focus file search |
+
+## Customizing Shortcuts
+
+All keyboard shortcuts can be customized:
+
+<Steps>
+  <Step title="Open Settings">
+    Press `Cmd+,` (Mac) or `Ctrl+,` (Windows/Linux).
+  </Step>
+  
+  <Step title="Navigate to Keybinds">
+    Find the "Keybinds" or "Keyboard Shortcuts" section.
+  </Step>
+  
+  <Step title="Click on Shortcut">
+    Click any shortcut to record a new key combination.
+  </Step>
+  
+  <Step title="Press New Keys">
+    Press your desired key combination. It will be validated for conflicts.
+  </Step>
+  
+  <Step title="Save Changes">
+    Changes are saved automatically.
+  </Step>
+</Steps>
+
+<Warning>
+  Avoid conflicts with system shortcuts (like `Cmd+Q` for quit) or En Croissant may not receive the key press.
+</Warning>
+
+## Shortcut Tips and Tricks
+
+<CardGroup cols={2}>
+  <Card title="Chain Commands" icon="link">
+    Combine shortcuts for complex actions. Example: `Shift+↑` then `A` then `Ctrl+A` to reset position, open analysis, and start all engines.
+  </Card>
+  
+  <Card title="Panel Switching" icon="window">
+    Use letter keys (`P`, `A`, `B`, `D`, `I`) to quickly switch between analysis contexts without mouse clicks.
+  </Card>
+  
+  <Card title="Arrow Navigation" icon="arrows">
+    Master arrow keys for move navigation. With Shift, they become game/branch jumpers. This is the fastest way to navigate.
+  </Card>
+  
+  <Card title="Annotation Workflow" icon="pen">
+    After analyzing with `A`, switch to `D` and use `1-6` to annotate moves, then `←/→` to move through the game.
+  </Card>
+</CardGroup>
+
+## Quick Reference Card
+
+### Most Used Shortcuts
+
+Memorize these for maximum efficiency:
+
+```
+Essential Navigation:
+→ / ← : Next/Previous move
+F     : Flip board
+
+Panels:
+A     : Analysis
+P     : Practice
+D     : Annotate
+
+Annotations:
+1-6   : Mark moves (!!, !, !?, ?!, ?, ??)
+
+Files:
+Cmd/Ctrl + S : Save
+Cmd/Ctrl + O : Open
+Cmd/Ctrl + T : New tab
+```
+
+### Power User Combos
+
+<Accordion title="Speed Analysis">
+  1. `Cmd+O` - Open game
+  2. `A` - Switch to analysis
+  3. `Ctrl+A` - Enable all engines
+  4. `→` - Step through moves
+  5. `1-6` - Annotate mistakes
+  6. `Cmd+S` - Save annotated game
+</Accordion>
+
+<Accordion title="Repertoire Practice">
+  1. `Cmd+O` - Open repertoire
+  2. `P` - Switch to practice
+  3. Click "Start Practice"
+  4. Make moves on board
+  5. `1-4` - Rate difficulty after correct
+  6. `Space` - Next after incorrect
+</Accordion>
+
+<Accordion title="Database Exploration">
+  1. Navigate to Databases
+  2. Open database
+  3. `Cmd+F` - Search player/opening
+  4. `↑/↓` - Browse results
+  5. Double-click - Open game
+  6. `A` - Analyze with engine
+</Accordion>
+
+## Platform-Specific Notes
+
+### macOS
+- `Cmd` is used for most shortcuts (instead of `Ctrl`)
+- Some shortcuts may conflict with system features (Mission Control, Spotlight)
+- Customize system shortcuts in System Preferences if needed
+
+### Windows/Linux
+- `Ctrl` is the primary modifier key
+- `Alt` may be used for some secondary shortcuts
+- Window managers may intercept some key combinations
+
+<Tip>
+  Print this page or keep it open in a second window while learning the shortcuts. You'll memorize the most important ones within a few days of regular use.
+</Tip>

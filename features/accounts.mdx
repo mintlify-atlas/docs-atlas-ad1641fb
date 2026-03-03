@@ -1,0 +1,270 @@
+---
+title: Account Integration
+description: Connect your Lichess and Chess.com accounts to import games and track progress
+---
+
+En Croissant integrates with Lichess.org and Chess.com to import your games, analyze your play, and track your progress over time.
+
+## Connecting Accounts
+
+<Tabs>
+  <Tab title="Lichess.org">
+    Connect your Lichess account with or without authentication:
+
+    ### With OAuth Login (Recommended)
+
+    <Steps>
+      <Step title="Open the Add Account dialog">
+        Click "Add Account" or the add button on the Accounts page.
+      </Step>
+      
+      <Step title="Select Lichess">
+        Choose Lichess from the available platforms.
+      </Step>
+      
+      <Step title="Enter your username">
+        Type your Lichess username in the provided field.
+      </Step>
+      
+      <Step title="Enable browser login">
+        Check the "Login with browser" option.
+      </Step>
+      
+      <Step title="Authorize in browser">
+        En Croissant will open Lichess.org in your browser. Click "Authorize" to grant access with the following permission:
+        - `preference:read` - Read your account preferences
+      </Step>
+      
+      <Step title="Complete authentication">
+        The OAuth flow uses PKCE for security. Once authorized, you'll be redirected back to En Croissant.
+      </Step>
+    </Steps>
+
+    <Info>
+      OAuth authentication provides access to private games and detailed account statistics. The access token is stored securely on your device.
+    </Info>
+
+    ### Without Login (Public Data Only)
+
+    <Steps>
+      <Step title="Open the Add Account dialog">
+        Click "Add Account" on the Accounts page.
+      </Step>
+      
+      <Step title="Select Lichess">
+        Choose Lichess from the available platforms.
+      </Step>
+      
+      <Step title="Enter username">
+        Type the Lichess username you want to track.
+      </Step>
+      
+      <Step title="Leave login unchecked">
+        Do not check the "Login with browser" option.
+      </Step>
+      
+      <Step title="Click Add">
+        En Croissant will import public data for this user.
+      </Step>
+    </Steps>
+
+    <Note>
+      Without authentication, only publicly available games and statistics can be imported.
+    </Note>
+  </Tab>
+
+  <Tab title="Chess.com">
+    Connect your Chess.com account using public API access:
+
+    <Steps>
+      <Step title="Open the Add Account dialog">
+        Click "Add Account" on the Accounts page.
+      </Step>
+      
+      <Step title="Select Chess.com">
+        Choose Chess.com from the available platforms.
+      </Step>
+      
+      <Step title="Enter username">
+        Type your Chess.com username.
+      </Step>
+      
+      <Step title="Click Add">
+        En Croissant will fetch your public Chess.com data.
+      </Step>
+    </Steps>
+
+    <Note>
+      Chess.com integration uses the public API and does not require OAuth. All publicly available games can be imported.
+    </Note>
+  </Tab>
+</Tabs>
+
+## OAuth Authentication Flow
+
+For Lichess authentication, En Croissant implements a secure OAuth 2.0 flow:
+
+### Security Features
+
+- **PKCE (Proof Key for Code Exchange)**: Protects against authorization code interception
+- **CSRF Token**: Prevents cross-site request forgery attacks
+- **Local Callback Server**: Temporary server on `127.0.0.1` with random port
+- **State Verification**: Validates the OAuth response matches the request
+
+### Authentication Process
+
+1. **Authorization Request**: Opens Lichess.org with your username
+2. **User Authorization**: You approve access in the browser
+3. **Callback**: Lichess redirects to local server with authorization code
+4. **Token Exchange**: En Croissant exchanges code for access token
+5. **Profile Fetch**: Account details are retrieved using the token
+
+### OAuth Configuration
+
+- **Client ID**: `org.encroissant.app`
+- **Authorization URL**: `https://lichess.org/oauth`
+- **Token URL**: `https://lichess.org/api/token`
+- **Scopes**: `preference:read`
+
+<Warning>
+  The OAuth callback server shuts down automatically after receiving the token. If authentication fails, restart En Croissant and try again.
+</Warning>
+
+## Managing Connected Accounts
+
+### Player Aliases
+
+When adding accounts, you can specify a custom "Player Name" (alias) to:
+
+- Track the same person across multiple accounts
+- Use a preferred display name
+- Group accounts by player for analysis
+
+If no alias is provided, the username is used as the default.
+
+### Account Information
+
+Each connected account displays:
+
+- **Platform**: Lichess or Chess.com logo
+- **Username**: Account username
+- **Rating**: Current rating by game type
+- **Statistics**: Games played, win/loss/draw record
+- **Last Updated**: When data was last synced
+
+### Updating Account Data
+
+Account data is fetched when:
+- The account is first added
+- You manually refresh the account
+- You open games from that account
+
+<Info>
+  Account data is cached locally. To see the latest games and ratings, refresh the account data.
+</Info>
+
+## Importing Games
+
+Once accounts are connected, you can:
+
+### Import Game Archives
+
+1. Select a connected account
+2. Choose a time period (month/year)
+3. Import all games from that period
+4. Games are saved to your local database
+
+### Filter Games
+
+Filter imported games by:
+- **Time control**: Bullet, Blitz, Rapid, Classical, Correspondence
+- **Result**: Win, Loss, Draw
+- **Color**: White, Black
+- **Rating range**: Specific ELO ranges
+
+### Automatic Analysis
+
+Imported games can be:
+- Analyzed with chess engines
+- Annotated with move quality
+- Added to your opening repertoire
+- Used for tactical puzzle generation
+
+## Database Integration
+
+Connected accounts automatically create databases in En Croissant:
+
+- **Location**: Databases directory
+- **Format**: SQLite database per account
+- **Content**: All imported games with metadata
+- **Indexing**: Optimized for position and opening searches
+
+To view your account databases:
+
+1. Open the Accounts page
+2. Select an account
+3. Click "View Database"
+
+## Removing Accounts
+
+To disconnect an account:
+
+1. Select the account card
+2. Click the remove/delete option
+3. Confirm removal
+
+<Note>
+  Removing an account deletes the connection but preserves imported games in your databases. To delete the games, remove the associated database.
+</Note>
+
+## Privacy and Data Storage
+
+Account data is stored locally:
+
+- **Access tokens**: Stored in browser localStorage
+- **Account info**: Saved in `sessions` atom
+- **Games**: Stored in local SQLite databases
+- **No cloud sync**: All data remains on your device
+
+### Telemetry
+
+Account connections are not tracked if telemetry is disabled in Settings > Privacy.
+
+## API Rate Limits
+
+### Lichess.org
+
+- **Public API**: Generous rate limits for game import
+- **Authenticated**: Higher limits with OAuth token
+- **Explorer API**: Used for opening statistics
+
+### Chess.com
+
+- **Public API**: Conservative rate limits
+- **Bulk Import**: May take longer for large archives
+- **Game Format**: PGN format with full metadata
+
+<Info>
+  If you encounter rate limit errors, wait a few minutes before retrying. En Croissant automatically handles rate limiting for normal usage.
+</Info>
+
+## Troubleshooting
+
+### Lichess Authentication Fails
+
+- Check your internet connection
+- Ensure default browser is set correctly
+- Try adding without login (public data only)
+- Restart En Croissant and retry
+
+### Chess.com Games Not Loading
+
+- Verify the username is correct
+- Check if the profile is public
+- Wait if rate limited (retry after 5-10 minutes)
+
+### Account Shows Outdated Data
+
+- Manually refresh the account
+- Check internet connectivity
+- Verify the account is still active on the platform

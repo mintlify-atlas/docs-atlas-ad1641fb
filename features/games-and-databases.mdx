@@ -1,0 +1,183 @@
+---
+title: Games and databases
+description: Store, organize, and manage your chess game collections with En Croissant's powerful database system
+---
+
+En Croissant provides a comprehensive database system for storing and organizing chess games. Built on SQLite with custom indexing, it efficiently handles databases with millions of games.
+
+## Database capabilities
+
+The database system supports:
+
+- **Fast position search** across millions of games using memory-mapped binary indexes
+- **Game filtering** by player, tournament, date, ELO rating, and result
+- **Player statistics** with opening repertoire analysis and rating trends
+- **Tournament data** with event and site information
+- **Full-text search** for finding games by player name or tournament
+
+## Supported formats
+
+En Croissant works with industry-standard chess database formats:
+
+### PGN (Portable Game Notation)
+
+The application can import PGN files in various encodings:
+
+- Standard `.pgn` files
+- Compressed `.pgn.zst` (Zstandard compression)
+- Compressed `.pgn.bz2` (Bzip2 compression)
+
+PGN files are converted to optimized SQLite databases with custom binary move encoding for efficient storage and retrieval.
+
+### Database files
+
+En Croissant uses `.db3` (SQLite) database files that include:
+
+- **Games table** with move data stored as binary-encoded movetext
+- **Players table** with name normalization and ELO tracking
+- **Events and Sites tables** for tournament organization
+- **Custom indexes** for fast position and game lookup
+- **Binary search index** (`.idx` files) for position queries
+
+## Creating a database
+
+You can create databases in multiple ways:
+
+<Steps>
+  <Step title="Import from PGN file">
+    Click "Add Database" and select the "Local" tab, then choose a PGN file from your computer. The application will convert it to an optimized database format.
+  </Step>
+  
+  <Step title="Download from web">
+    Browse curated databases in the "Web" tab and click "Install" to download pre-built databases with millions of games.
+  </Step>
+  
+  <Step title="Import from online platforms">
+    Import your games directly from Lichess.org or Chess.com using OAuth authentication (see [Importing games](/features/importing-games)).
+  </Step>
+</Steps>
+
+## Database operations
+
+### Viewing database information
+
+Access database details from the Databases page:
+
+```typescript
+// Database info includes:
+- Title and description
+- Total games, players, and events
+- Storage size on disk
+- Index status (indexed/unindexed)
+- Database file location
+```
+
+You can view this information in the database card on the main Databases page.
+
+### Managing indexes
+
+Indexes dramatically improve search performance but increase file size:
+
+<Info>
+  Creating indexes on a large database can take several minutes but only needs to be done once.
+</Info>
+
+**Creating indexes:**
+- Enables fast filtering by player, date, rating, and result
+- Required for optimal performance on databases with >10,000 games
+- Automatically created during PGN import
+
+**Deleting indexes:**
+- Reduces database file size by ~30-40%
+- Useful for archival or when disk space is limited
+- Can be recreated at any time
+
+### Position search indexing
+
+For position-based queries, En Croissant generates a binary search index (`.idx` file):
+
+- **Automatic generation** when first searching a database
+- **Memory-mapped access** for instant loading of millions of games
+- **Parallel search** using all CPU cores for maximum speed
+- **Cached results** to avoid redundant searches
+
+The search index stores:
+- Material counts (for quick position reachability checks)
+- Pawn structure data (for exact position matching)
+- Move sequences in binary format
+- Player ratings and game results
+
+### Editing database metadata
+
+Update database title and description through the database settings menu. This information is stored in the database's internal `Info` table.
+
+### Deleting databases
+
+Deleting a database removes both the `.db3` file and associated `.idx` search index file. This operation cannot be undone.
+
+<Warning>
+  Deleting a database permanently removes all games and cannot be reversed. Consider backing up important databases before deletion.
+</Warning>
+
+## Database maintenance
+
+### Removing duplicate games
+
+En Croissant can detect and remove duplicate games based on:
+- Same players (White and Black)
+- Same event and site
+- Same date and time
+- Identical move sequence
+
+This is useful when merging multiple PGN sources that may contain overlapping games.
+
+### Removing empty games
+
+Games with no moves (ply count = 0) can be filtered out to reduce database size and improve data quality.
+
+### Database optimization
+
+After removing duplicates or empty games, the database automatically:
+- Deletes orphaned player records (players with no games)
+- Deletes orphaned event and site records
+- Updates game counts in the Info table
+- Maintains referential integrity
+
+## Performance characteristics
+
+<CardGroup cols={2}>
+  <Card title="Small databases" icon="gauge-simple-low">
+    **< 100,000 games**
+    
+    - Instant loading and search
+    - Indexes optional
+    - Suitable for personal game collections
+  </Card>
+  
+  <Card title="Large databases" icon="gauge-simple-high">
+    **1M+ games**
+    
+    - Memory-mapped index required
+    - Parallel position search
+    - Optimized for master game databases
+  </Card>
+</CardGroup>
+
+## Technical implementation
+
+En Croissant's database system uses:
+
+- **SQLite** with connection pooling (up to 16 concurrent connections)
+- **Diesel ORM** for type-safe database queries  
+- **Custom binary encoding** for moves, reducing storage by ~60% vs. text
+- **Rayon** for parallel processing of large imports and searches
+- **Memory-mapped I/O** for instant access to multi-GB search indexes
+
+Move encoding example from `src-tauri/src/db/encoding.rs`:
+```rust
+// Each move is encoded as a single byte when possible
+// This includes: square indices, piece type, and special flags
+encode_move(&m, &position) // Chess move -> u8
+```
+
+The database schema tracks material changes and pawn structure to enable fast position reachability checks without decoding every move sequence.

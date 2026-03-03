@@ -1,0 +1,351 @@
+---
+title: Database search
+description: Search for positions, games, and players across millions of chess games with En Croissant's advanced search capabilities
+---
+
+En Croissant provides powerful search capabilities for exploring chess databases. Search by position, filter games by player or tournament, and analyze opening statistics across millions of games.
+
+## Position search
+
+Position search finds all games that contain a specific chess position. This is one of En Croissant's most powerful features, using memory-mapped binary indexes for instant results.
+
+### Search types
+
+<Tabs>
+  <Tab title="Exact position">
+    Matches the exact position including:
+    - Piece placement on all squares
+    - Side to move
+    - Castling rights
+    - En passant square
+    
+    **Use case:** Find games that reached an exact position from your current game.
+  </Tab>
+  
+  <Tab title="Partial position">
+    Matches positions that contain all the pieces from your query position, but may have additional pieces.
+    
+    **Use case:** Find all games with a specific piece pattern (e.g., "white knight on f3 and e4 pawn").
+  </Tab>
+</Tabs>
+
+### How position search works
+
+<Steps>
+  <Step title="Set up the position">
+    Navigate to the position you want to search for on the analysis board.
+  </Step>
+  
+  <Step title="Open database search">
+    Click the "Search Database" button. Select the database you want to search.
+  </Step>
+  
+  <Step title="Choose search type">
+    Select "Exact" for precise position matching or "Partial" for pattern matching.
+  </Step>
+  
+  <Step title="View results">
+    Results show:
+    - Move statistics (most played moves from this position)
+    - Win/draw/loss percentages for each move
+    - Sample games from high-rated players
+  </Step>
+</Steps>
+
+### Position search optimization
+
+En Croissant uses several optimizations for fast position search:
+
+**Material-based filtering:**
+```rust
+// Quick pre-check before examining moves
+// From src-tauri/src/db/search.rs
+fn is_material_reachable(end: &MaterialCount, pos: &MaterialCount) -> bool {
+    end.white <= pos.white && end.black <= pos.black
+}
+```
+
+**Pawn structure indexing:**
+- Tracks pawns on 2nd and 7th ranks as 16-bit integer
+- Enables instant filtering for exact position search
+- Reduces search space by 90%+ for endgame positions
+
+**Parallel search:**
+- Uses all CPU cores via Rayon parallel iterators
+- Processes millions of games in seconds
+- Lock-free aggregation of results
+
+<Info>
+  Position search on a database with 2 million games typically completes in 2-5 seconds, examining every game's move sequence.
+</Info>
+
+### Move statistics
+
+For each position found, En Croissant displays:
+
+```typescript
+interface PositionStats {
+  move: string;        // Move in SAN notation (e.g., "Nf3")
+  white: number;       // Games where White won after this move  
+  draw: number;        // Games that ended in a draw
+  black: number;       // Games where Black won after this move
+}
+```
+
+Moves are sorted by popularity, helping you identify the most common and successful continuations.
+
+### Sample games
+
+The search returns up to 10 sample games from the highest-rated players:
+
+- Games are ranked by maximum player rating (White or Black)
+- Only the top 10 rated games are returned
+- Includes full game notation and headers
+- Click any game to load it in the analysis board
+
+This is implemented using a min-heap to efficiently track top games while processing millions of candidates.
+
+## Game filtering and search
+
+Filter and search games in the database using multiple criteria:
+
+### Player search
+
+<Steps>
+  <Step title="Open the Players tab">
+    In database view, switch to the Players tab to see all players in the database.
+  </Step>
+  
+  <Step title="Search by name">
+    Use the search box to find players by name (supports partial matching).
+    
+    ```sql
+    -- Search uses SQL LIKE with wildcards
+    WHERE players.name LIKE '%Carlsen%'
+    ```
+  </Step>
+  
+  <Step title="Filter by rating">
+    Set minimum and maximum ELO ratings to find players in a specific range.
+  </Step>
+  
+  <Step title="View player games">
+    Click any player to see all their games in the database, along with statistics.
+  </Step>
+</Steps>
+
+### Game filters
+
+Combine multiple filters to find specific games:
+
+<CardGroup cols={2}>
+  <Card title="Player filters" icon="user">
+    - Player 1 (White or Black)
+    - Player 2 (Opponent)  
+    - Side selection (White/Black/Any)
+    - ELO rating ranges for each player
+  </Card>
+  
+  <Card title="Game metadata" icon="info-circle">
+    - Tournament/Event name
+    - Date range (from/to)
+    - Game result (1-0, 0-1, 1/2-1/2)
+    - Time control
+  </Card>
+  
+  <Card title="Position-based" icon="chess-board">
+    - Position search (exact or partial)
+    - Desired result from position
+    - Material count filters
+    - Ply count (game length)
+  </Card>
+  
+  <Card title="Sorting options" icon="arrow-down-up">
+    - Date (newest/oldest first)
+    - Rating (highest/lowest)
+    - Game length (ply count)
+    - Game ID
+  </Card>
+</CardGroup>
+
+### Advanced filtering example
+
+Find all games where:
+- Magnus Carlsen played with White pieces
+- Against opponents rated 2700+
+- Reached the Ruy Lopez opening (e4 e5 Nf3 Nc6 Bb5)
+- Resulted in a White win
+
+```typescript
+const query: GameQuery = {
+  player1: carlsenId,
+  sides: "WhiteBlack",
+  range2: [2700, 3000],
+  position: {
+    fen: "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R",
+    type: "exact"
+  },
+  outcome: "1-0",
+  options: {
+    sort: "date",
+    direction: "desc",
+    page: 1,
+    pageSize: 50
+  }
+};
+```
+
+## Tournament and event search
+
+Explore games by tournament:
+
+### Finding tournaments
+
+<Steps>
+  <Step title="Navigate to Tournaments tab">
+    Switch to the Tournaments tab in database view to see all events.
+  </Step>
+  
+  <Step title="Search by name">
+    Find specific tournaments using the search box (e.g., "World Championship", "Tata Steel").
+  </Step>
+  
+  <Step title="View tournament games">
+    Click a tournament to filter games to only that event.
+  </Step>
+</Steps>
+
+### Tournament statistics
+
+For each tournament, view:
+- Total games played
+- Date range of games
+- Players who participated
+- Average rating of participants
+
+## Search performance
+
+En Croissant's search system is optimized for speed:
+
+### Memory-mapped indexing
+
+```rust
+// From src-tauri/src/db/search_index.rs
+pub struct MmapSearchIndex {
+    // Memory-mapped file for instant access
+    // No loading time, even for multi-GB indexes
+    mmap: Arc<Mmap>,
+    entry_count: usize,
+}
+```
+
+**Benefits:**
+- Instant "loading" of multi-GB search indexes
+- Zero memory overhead (uses OS page cache)
+- Shared across multiple searches
+
+### Parallel processing
+
+```rust
+// Search uses all CPU cores
+mmap_index.par_iter().for_each(|entry| {
+    // Process game entry
+    if matches_query(entry) {
+        // Aggregate results lock-free with DashMap
+    }
+});
+```
+
+### Search result caching
+
+Recent searches are cached in memory:
+- Cache key: `(GameQuery, database_path)`
+- Prevents redundant searches of the same position
+- Automatically cleared when database is modified
+- Collision detection prevents concurrent duplicate searches
+
+<Warning>
+  The first search on a database generates the search index file (`.idx`). This can take 1-5 minutes for large databases but only happens once.
+</Warning>
+
+## Search patterns and tips
+
+### Opening preparation
+
+1. Navigate to your opening position
+2. Search database for exact position
+3. Review most popular moves and their win rates
+4. Load sample games from strong players
+5. Identify critical variations to study
+
+### Endgame study
+
+1. Set up the endgame position (e.g., R+P vs R)
+2. Use **partial position search** to find all games with that material
+3. Study how strong players converted or held the position
+4. Filter by player rating for high-quality examples
+
+### Player preparation
+
+1. Search for your opponent's name in Players tab
+2. Filter their games by color and opening
+3. Identify their most common lines
+4. Search specific positions from their games
+5. Find their weaknesses or unfamiliar variations
+
+### Pattern recognition
+
+1. Set up a tactical pattern (e.g., knight fork setup)
+2. Use partial search to find all games with that pattern  
+3. Study the context in which the pattern arose
+4. Build pattern recognition skills
+
+## Combining position search with analysis
+
+Integrate database search into your analysis workflow:
+
+<Steps>
+  <Step title="Analyze your game">
+    Load a game into the analysis board and navigate to an interesting position.
+  </Step>
+  
+  <Step title="Search database">
+    Click "Search Database" to see how others played this position.
+  </Step>
+  
+  <Step title="Compare with engine">
+    Use engine analysis alongside database statistics to find the objectively best move vs. the most popular move.
+  </Step>
+  
+  <Step title="Study deviations">
+    When the database shows a different move than the engine, load sample games to understand the practical considerations.
+  </Step>
+</Steps>
+
+## Search API
+
+The search system is exposed through Tauri commands:
+
+```rust
+#[tauri::command]
+pub async fn search_position(
+    file: PathBuf,           // Database file path
+    query: GameQuery,        // Search criteria
+    app: AppHandle,          // For progress updates
+    tab_id: String,          // For tracking search progress
+    state: State<AppState>,  // App state with caches
+) -> Result<(Vec<PositionStats>, Vec<NormalizedGame>), Error>
+```
+
+Progress updates are emitted during long searches:
+
+```typescript
+// Listen for search progress
+events.on('search_progress', (payload) => {
+  console.log(`Search ${payload.progress}% complete`);
+});
+```
+
+<Note>
+  Search progress is updated every 50,000 games processed to avoid UI overhead.
+</Note>

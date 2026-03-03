@@ -1,0 +1,257 @@
+---
+title: Importing games
+description: Import chess games from PGN files, Lichess.org, Chess.com, and other sources into En Croissant
+---
+
+En Croissant supports multiple methods for importing games into your database. Import from local PGN files, download curated databases, or sync your online games directly from Lichess or Chess.com.
+
+## Importing from PGN files
+
+PGN (Portable Game Notation) is the standard format for chess games. En Croissant can import PGN files with advanced compression and encoding support.
+
+<Steps>
+  <Step title="Open the Add Database dialog">
+    Navigate to the Databases page and click the "Add Database" button in the top-right corner.
+  </Step>
+  
+  <Step title="Select the Local tab">
+    Switch to the "Local" tab to import from a file on your computer.
+  </Step>
+  
+  <Step title="Choose your PGN file">
+    Click "Click to select PGN file" and browse to your PGN file. Supported formats:
+    - `.pgn` - Standard PGN text files
+    - `.pgn.zst` - Zstandard compressed PGN (recommended for large databases)
+    - `.pgn.bz2` - Bzip2 compressed PGN
+  </Step>
+  
+  <Step title="Configure database details">
+    Enter a name and optional description. The name will be auto-filled based on the filename.
+  </Step>
+  
+  <Step title="Convert to database">
+    Click "Convert" to start the import process. Progress will be shown in real-time.
+  </Step>
+</Steps>
+
+### Import progress tracking
+
+During import, En Croissant displays:
+- Number of games processed
+- Processing speed (games per second)
+- Estimated time remaining
+- Real-time progress updates every 1,000 games
+
+The conversion process is implemented in `src-tauri/src/db/mod.rs:convert_pgn()`.
+
+### Supported PGN features
+
+En Croissant's PGN parser supports:
+
+<Tabs>
+  <Tab title="Standard headers">
+    - **Event** - Tournament or match name
+    - **Site** - Location or platform (e.g., "lichess.org")
+    - **Date** - Game date in YYYY.MM.DD format
+    - **Round** - Round number in tournament
+    - **White/Black** - Player names
+    - **WhiteElo/BlackElo** - Player ratings
+    - **Result** - Game outcome (1-0, 0-1, 1/2-1/2, *)
+    - **TimeControl** - Time control string
+    - **ECO** - Opening classification code
+  </Tab>
+  
+  <Tab title="Advanced features">
+    - **FEN** - Custom starting position
+    - **UTCDate/UTCTime** - Precise timestamp
+    - **Variations** - Alternative move sequences
+    - **Comments** - Game annotations and analysis
+    - **NAGs** - Numeric Annotation Glyphs (!!, ?, etc.)
+  </Tab>
+  
+  <Tab title="Encoding support">
+    - UTF-8 (recommended)
+    - UTF-8 with BOM (automatically detected)
+    - Latin-1 / ISO-8859-1
+    - Handles mixed encodings gracefully
+  </Tab>
+</Tabs>
+
+### Batch import optimization
+
+For optimal performance when importing large PGN files:
+
+- **Disable indexes during import** - Indexes are created after import completes
+- **Journal mode OFF** - Maximizes write speed (set automatically)
+- **Foreign key checks disabled** - Enabled only after completion
+- **Transaction batching** - All games imported in a single transaction
+- **Parallel parsing** - Uses multiple CPU cores for decompression
+
+<Info>
+  A compressed PGN file with 1 million games typically takes 5-15 minutes to import on modern hardware.
+</Info>
+
+## Importing from Lichess.org
+
+En Croissant can import your games directly from Lichess using OAuth authentication.
+
+<Steps>
+  <Step title="Initiate OAuth login">
+    In the import dialog, select Lichess as the source and enter your Lichess username.
+  </Step>
+  
+  <Step title="Authorize the application">
+    Your browser will open to Lichess.org. Click "Authorize" to grant En Croissant access to your games.
+    
+    **Scopes requested:**
+    - `preference:read` - Read your account preferences
+  </Step>
+  
+  <Step title="Automatic token handling">
+    En Croissant receives an OAuth token and uses it to download your games. The token is stored securely and reused for future imports.
+  </Step>
+  
+  <Step title="Download your games">
+    Your complete game history is downloaded in PGN format and imported into a new database.
+  </Step>
+</Steps>
+
+### OAuth implementation details
+
+The OAuth flow is implemented in `src-tauri/src/oauth.rs`:
+
+```rust
+// OAuth configuration for Lichess
+client_id: "org.encroissant.app"
+auth_url: "https://lichess.org/oauth"
+token_url: "https://lichess.org/api/token"
+
+// Uses PKCE (Proof Key for Code Exchange) for security
+// Local callback server on random port (127.0.0.1:RANDOM)
+```
+
+<Note>
+  En Croissant uses a local callback server that automatically closes after authentication. No data is sent to external servers.
+</Note>
+
+## Importing from Chess.com
+
+Chess.com game import follows a similar OAuth flow to Lichess:
+
+1. Enter your Chess.com username
+2. Authorize En Croissant in your browser
+3. Games are downloaded and imported automatically
+
+### Supported game types
+
+Both Lichess and Chess.com imports include:
+- Rapid games
+- Blitz games  
+- Bullet games
+- Classical games
+- Correspondence games
+- Tournament games
+- Casual games (optional)
+
+## Incremental updates
+
+When re-importing from a source, En Croissant can skip games that already exist in your database:
+
+- **Timestamp checking** - Only imports games newer than the latest game in your database
+- **Duplicate detection** - Automatically skips identical games
+- **Merge strategy** - New games are appended to existing database
+
+This is controlled by the optional `timestamp` parameter in `convert_pgn()`:
+
+```typescript
+// Skip games with timestamp before this Unix timestamp
+timestamp?: number
+```
+
+## Pre-built databases
+
+En Croissant offers curated databases for download:
+
+<CardGroup cols={2}>
+  <Card title="Master games database">
+    High-level games from professional tournaments with full annotations.
+  </Card>
+  
+  <Card title="Opening repertoire database">
+    Specialized collections focused on specific openings and variations.
+  </Card>
+  
+  <Card title="Historical games">
+    Classic games from chess history, including world championship matches.
+  </Card>
+  
+  <Card title="Computer games">
+    High-quality engine vs. engine games for studying precise play.
+  </Card>
+</CardGroup>
+
+Pre-built databases are downloaded in optimized `.db3` format with indexes pre-generated for instant use.
+
+## Import error handling
+
+En Croissant handles various PGN errors gracefully:
+
+<Tabs>
+  <Tab title="Recoverable errors">
+    **Skipped with warning:**
+    - Invalid FEN positions
+    - Illegal moves in game notation
+    - Missing required headers
+    - Corrupted move sequences
+    
+    Games with errors are skipped, and import continues.
+  </Tab>
+  
+  <Tab title="Conversion handling">
+    **Automatic fixes:**
+    - Missing ELO (set to 0)
+    - Missing result (set to `*`)
+    - Invalid dates (set to unknown)
+    - Character encoding issues
+  </Tab>
+  
+  <Tab title="Critical errors">
+    **Import halted:**
+    - Corrupted file that can't be decompressed
+    - Insufficient disk space
+    - Database file permissions issues
+    - Out of memory errors
+  </Tab>
+</Tabs>
+
+## Performance tips
+
+<Steps>
+  <Step title="Use compressed formats">
+    `.pgn.zst` files are 5-10x smaller than uncompressed PGN and import just as fast due to parallel decompression.
+  </Step>
+  
+  <Step title="Batch related imports">
+    Import all related PGN files into a single database rather than creating multiple small databases.
+  </Step>
+  
+  <Step title="Monitor disk space">
+    The database will be approximately 30-40% the size of the uncompressed PGN file. Ensure adequate free space.
+  </Step>
+  
+  <Step title="Use SSD storage">
+    Database creation is I/O intensive. SSDs provide 10x faster import times compared to HDDs.
+  </Step>
+</Steps>
+
+## Import statistics
+
+After import completes, the database Info table tracks:
+
+- **GameCount** - Total games in database
+- **PlayerCount** - Unique players
+- **EventCount** - Unique tournaments/events
+- **SiteCount** - Unique locations/platforms
+- **Version** - Database schema version
+
+These counts are displayed in the database card and used for statistics and filtering.

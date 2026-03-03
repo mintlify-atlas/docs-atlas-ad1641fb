@@ -1,0 +1,223 @@
+---
+title: "Frequently Asked Questions"
+description: "Common questions about En Croissant and their answers"
+---
+
+## General Questions
+
+<AccordionGroup>
+  <Accordion title="What is En Croissant?">
+    En Croissant is an open-source, cross-platform chess GUI (Graphical User Interface) designed to be powerful, customizable, and easy to use. It provides a complete toolkit for chess analysis, game management, and training.
+
+    Built with modern technologies (Rust and React), En Croissant combines the performance of native applications with a clean, intuitive interface.
+  </Accordion>
+
+  <Accordion title="What chess engines work with En Croissant?">
+    En Croissant supports **all UCI (Universal Chess Interface) engines**. This includes popular engines like:
+
+    - Stockfish
+    - Leela Chess Zero (Lc0)
+    - Dragon
+    - Komodo
+    - Any other UCI-compatible engine
+
+    The application provides built-in engine management, making it easy to install, configure, and use multiple engines simultaneously for analysis.
+
+    <Tip>En Croissant supports multi-engine analysis, allowing you to compare evaluations from different engines side by side.</Tip>
+  </Accordion>
+
+  <Accordion title="Which platforms does En Croissant support?">
+    En Croissant is cross-platform and runs on:
+
+    - **Windows** (7 and later)
+    - **macOS** (10.13 High Sierra and later)
+    - **Linux** (various distributions)
+
+    The application is built with Tauri, ensuring consistent behavior across all platforms with native performance.
+  </Accordion>
+
+  <Accordion title="How do I import games into En Croissant?">
+    You can import games in several ways:
+
+    1. **From online platforms**: Directly download your games from [lichess.org](https://lichess.org) and [chess.com](https://chess.com) using the built-in OAuth integration
+    2. **PGN files**: Import standard PGN (Portable Game Notation) files from any source
+    3. **Manual entry**: Enter games manually using the board interface
+
+    See the [Importing Games](/features/importing-games) guide for detailed instructions.
+  </Accordion>
+
+  <Accordion title="What database formats does En Croissant support?">
+    En Croissant uses **SQLite** as its primary database format, which provides:
+
+    - Fast performance for searching and filtering
+    - Compact file size with efficient compression
+    - Full support for position search (both absolute and partial positions)
+    - Player statistics and tournament data
+
+    You can also:
+    - Import from PGN files
+    - Export databases back to PGN format
+    - Merge multiple databases
+    - Create and manage multiple separate databases
+  </Accordion>
+</AccordionGroup>
+
+## Features & Functionality
+
+<AccordionGroup>
+  <Accordion title="Can I analyze games with multiple engines simultaneously?">
+    Yes! En Croissant supports **multi-engine analysis**, one of its standout features.
+
+    You can:
+    - Run multiple UCI engines at the same time
+    - Compare evaluations and suggested moves
+    - Configure each engine with different settings
+    - See multiple principal variations side by side
+
+    This is particularly useful for understanding positions more deeply by seeing how different engines evaluate the same position.
+  </Accordion>
+
+  <Accordion title="How does repertoire training work?">
+    En Croissant includes a sophisticated repertoire training system with **spaced repetition**:
+
+    - Build your opening repertoire for both White and Black
+    - Practice your lines with intelligent scheduling based on the spaced repetition algorithm
+    - Track your performance and identify weak spots
+    - Get reminded to review positions at optimal intervals
+
+    The system helps you memorize your openings effectively by showing you positions just before you're likely to forget them.
+  </Accordion>
+
+  <Accordion title="Can I search for specific positions in my database?">
+    Yes, En Croissant supports advanced position search:
+
+    - **Absolute position search**: Find exact position matches
+    - **Partial position search**: Search for positions with specific piece patterns, regardless of other pieces
+
+    This is powerful for studying specific pawn structures, endgames, or tactical patterns across your entire game database.
+  </Accordion>
+
+  <Accordion title="Does En Croissant include puzzles?">
+    Yes, En Croissant supports chess puzzle training. You can:
+
+    - Import puzzle databases
+    - Practice tactics with immediate feedback
+    - Filter puzzles by theme and difficulty
+    - Track your puzzle rating and progress
+
+    See the [Puzzles](/features/puzzles) feature page for more information.
+  </Accordion>
+</AccordionGroup>
+
+## Licensing & Privacy
+
+<AccordionGroup>
+  <Accordion title="Is En Croissant free and open source?">
+    Yes! En Croissant is **completely free** and licensed under the **GPL-3.0 License**.
+
+    This means:
+    - The source code is publicly available on [GitHub](https://github.com/franciscoBSalgueiro/en-croissant)
+    - You can use it for free, forever
+    - You can modify and redistribute it under the same license
+    - The community can contribute improvements
+
+    If you find En Croissant valuable, consider [supporting the development](https://encroissant.org/support) through donations.
+  </Accordion>
+
+  <Accordion title="How is En Croissant different from other chess GUIs?">
+    En Croissant distinguishes itself through:
+
+    - **Modern technology stack**: Built with Rust and React for excellent performance and maintainability
+    - **Cross-platform consistency**: Native performance on Windows, macOS, and Linux
+    - **Multi-engine analysis**: Compare multiple engines simultaneously
+    - **Integrated cloud sync**: Direct import from lichess.org and chess.com
+    - **Spaced repetition training**: Advanced repertoire learning system
+    - **Position search**: Powerful database search capabilities
+    - **Open source**: Transparent development and community contributions
+    - **Modern UI**: Clean, intuitive interface with customization options
+  </Accordion>
+
+  <Accordion title="Does En Croissant collect data or send telemetry?">
+    En Croissant includes optional analytics through PostHog for understanding usage patterns and improving the application.
+
+    Your privacy is respected:
+    - No personal information or game data is collected
+    - Analytics can be disabled in settings
+    - All game databases are stored locally on your machine
+    - OAuth authentication with chess platforms uses secure, standard protocols
+
+    The application is open source, so you can verify exactly what data is collected by reviewing the code.
+  </Accordion>
+
+  <Accordion title="Can I contribute to En Croissant?">
+    Absolutely! Contributions are welcome and appreciated.
+
+    Ways to contribute:
+    - Report bugs and request features on [GitHub](https://github.com/franciscoBSalgueiro/en-croissant/issues)
+    - Submit code contributions (see the [Contributing Guide](https://github.com/franciscoBSalgueiro/en-croissant/blob/master/CONTRIBUTING.md))
+    - Improve documentation
+    - Help other users on [Discord](https://discord.gg/tdYzfDbSSW)
+    - Share feedback and suggestions
+
+    See the [Contributing](/advanced/contributing) page for more details.
+  </Accordion>
+</AccordionGroup>
+
+## Technical Questions
+
+<AccordionGroup>
+  <Accordion title="What technologies is En Croissant built with?">
+    En Croissant uses a modern technology stack:
+
+    **Backend (Rust):**
+    - Tauri for the application framework
+    - SQLite with Diesel ORM for database operations
+    - Shakmaty for chess logic and position handling
+    - vampirc-uci for UCI engine communication
+
+    **Frontend (TypeScript/React):**
+    - React 19 for the UI
+    - Vite for build tooling
+    - Mantine for component library
+    - Chessground for the board visualization
+    - TanStack Router for routing
+    - Jotai for state management
+
+    This combination provides excellent performance, maintainability, and cross-platform support.
+  </Accordion>
+
+  <Accordion title="Can I build En Croissant from source?">
+    Yes! Building from source is straightforward:
+
+    1. Install prerequisites (Node.js, Rust, pnpm)
+    2. Clone the repository
+    3. Run `pnpm install`
+    4. Run `pnpm build`
+
+    See the [Building from Source](/advanced/building-from-source) guide for detailed instructions and platform-specific requirements.
+  </Accordion>
+
+  <Accordion title="What is BMI2 compatibility and why does it matter?">
+    BMI2 is a CPU instruction set extension that some chess engines use for faster move generation.
+
+    - Modern Intel and AMD processors (2013+) typically support BMI2
+    - Some engines offer BMI2-optimized builds for better performance
+    - En Croissant can detect BMI2 support to help you choose the right engine binary
+
+    If you have an older processor, use the standard (non-BMI2) engine builds.
+  </Accordion>
+
+  <Accordion title="Where are my databases and settings stored?">
+    En Croissant stores data in standard application directories:
+
+    - **Windows**: `%APPDATA%\en-croissant`
+    - **macOS**: `~/Library/Application Support/com.encroissant.app`
+    - **Linux**: `~/.config/en-croissant` or `$XDG_CONFIG_HOME/en-croissant`
+
+    Your databases, engine configurations, and application settings are all stored in these locations.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+Can't find what you're looking for? Check the [Troubleshooting](/resources/troubleshooting) page or ask in the [community](/resources/community).
+</Note>

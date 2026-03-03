@@ -1,0 +1,130 @@
+---
+title: Installation
+description: Download and install En Croissant on Windows, macOS, or Linux
+---
+
+En Croissant is available for Windows, macOS, and Linux. This guide will walk you through downloading and installing the application on your platform.
+
+## Download
+
+The latest version of En Croissant can be downloaded from the official website:
+
+**[www.encroissant.org/download](https://www.encroissant.org/download)**
+
+The download page will automatically detect your operating system and recommend the appropriate installer.
+
+## System requirements
+
+Before installing, ensure your system meets the following requirements:
+
+- **Operating System:** Windows 10+, macOS 10.15+, or Linux (modern distributions)
+- **RAM:** 4GB minimum, 8GB recommended
+- **Storage:** 500MB for application, plus additional space for databases and games
+- **Display:** 1280x720 minimum resolution
+
+## Installation by platform
+
+<Steps>
+  <Step title="Choose your platform">
+    Select the installation instructions for your operating system below.
+  </Step>
+  
+  <Step title="Windows">
+    ### Windows installation
+    
+    1. Download the `.msi` or `.exe` installer from the download page
+    2. Double-click the downloaded installer file
+    3. Follow the installation wizard prompts
+    4. Click "Install" and wait for the installation to complete
+    5. Launch En Croissant from the Start menu or desktop shortcut
+    
+    <Note>
+      Windows may show a SmartScreen warning for new releases. Click "More info" and then "Run anyway" to proceed with the installation.
+    </Note>
+  </Step>
+  
+  <Step title="macOS">
+    ### macOS installation
+    
+    1. Download the `.dmg` file from the download page
+    2. Open the downloaded `.dmg` file
+    3. Drag the En Croissant icon to your Applications folder
+    4. Open Applications and double-click En Croissant to launch
+    
+    <Note>
+      On first launch, macOS may block the app because it's from an unidentified developer. Go to **System Preferences > Security & Privacy** and click "Open Anyway" to allow En Croissant to run.
+    </Note>
+  </Step>
+  
+  <Step title="Linux">
+    ### Linux installation
+    
+    En Croissant is available in multiple formats for Linux:
+    
+    #### AppImage (Universal)
+    
+    1. Download the `.AppImage` file from the download page
+    2. Make it executable:
+    
+    ```bash
+    chmod +x en-croissant*.AppImage
+    ```
+    
+    3. Run the AppImage:
+    
+    ```bash
+    ./en-croissant*.AppImage
+    ```
+    
+    #### Debian/Ubuntu (.deb)
+    
+    1. Download the `.deb` package
+    2. Install using dpkg:
+    
+    ```bash
+    sudo dpkg -i en-croissant*.deb
+    sudo apt-get install -f  # Install any missing dependencies
+    ```
+    
+    <Tip>
+      For other Linux distributions, the AppImage format provides the best compatibility and requires no installation.
+    </Tip>
+  </Step>
+  
+  <Step title="First launch">
+    When you launch En Croissant for the first time:
+    
+    1. The application window will open with a welcome screen
+    2. You'll see cards for different actions like "Play Chess," "Analysis Board," and "Import Game"
+    3. The app will create a default directory for storing your chess files in your Documents folder
+    4. You're ready to start using En Croissant!
+    
+    Continue to the [Quickstart Guide](/quickstart) to learn how to use the application.
+  </Step>
+</Steps>
+
+## Building from source
+
+If you prefer to build En Croissant from source or want to contribute to development, see the [Building from Source](/advanced/building-from-source) guide for detailed instructions.
+
+## Updating
+
+En Croissant includes an automatic updater that will notify you when new versions are available. When an update is available:
+
+1. A notification will appear in the application
+2. Click the notification to download and install the update
+3. Restart the application to complete the update
+
+<Info>
+  You can manually check for updates at any time by going to **Help > Check for Updates** in the application menu.
+</Info>
+
+## Troubleshooting
+
+If you encounter issues during installation:
+
+- **Windows:** Ensure you have administrator privileges and that antivirus software isn't blocking the installer
+- **macOS:** Check System Preferences > Security & Privacy if the app won't open
+- **Linux:** Make sure you have the required system libraries installed
+
+For additional help, join the [Discord community](https://discord.gg/tdYzfDbSSW) or check the [GitHub issues](https://github.com/franciscoBSalgueiro/en-croissant/issues).

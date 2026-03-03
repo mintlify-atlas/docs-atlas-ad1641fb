@@ -1,0 +1,337 @@
+---
+title: "Building from Source"
+description: "Step-by-step guide to building En Croissant from source code"
+---
+
+This guide walks you through building En Croissant from source on your machine.
+
+## Prerequisites
+
+Before building En Croissant, ensure you have the required tools installed.
+
+### Required Software
+
+<Steps>
+  <Step title="Install Rust">
+    Download and install Rust from [rustup.rs](https://rustup.rs/)
+
+    ```bash
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    ```
+
+    Verify installation:
+
+    ```bash
+    rustc --version
+    ```
+  </Step>
+
+  <Step title="Install Node.js">
+    Install Node.js 18 or later from [nodejs.org](https://nodejs.org/)
+
+    ```bash
+    node --version  # Should be v18 or higher
+    ```
+  </Step>
+
+  <Step title="Install pnpm">
+    En Croissant uses pnpm as the package manager. Install it globally:
+
+    ```bash
+    npm install -g pnpm
+    ```
+
+    Or follow the [pnpm installation guide](https://pnpm.io/installation) for other methods.
+
+    Verify installation:
+
+    ```bash
+    pnpm --version
+    ```
+  </Step>
+
+  <Step title="Install Tauri Dependencies">
+    Tauri requires platform-specific dependencies. Follow the [Tauri Prerequisites Guide](https://tauri.app/v1/guides/getting-started/prerequisites) for your operating system.
+
+    **Linux:**
+    ```bash
+    # Debian/Ubuntu
+    sudo apt install libwebkit2gtk-4.1-dev \
+      build-essential \
+      curl \
+      wget \
+      file \
+      libxdo-dev \
+      libssl-dev \
+      libayatana-appindicator3-dev \
+      librsvg2-dev
+    ```
+
+    **macOS:**
+    ```bash
+    xcode-select --install
+    ```
+
+    **Windows:**
+    - Install [Microsoft Visual Studio C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+    - Install [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) (usually pre-installed on Windows 11)
+  </Step>
+</Steps>
+
+## Building En Croissant
+
+<Steps>
+  <Step title="Clone the Repository">
+    ```bash
+    git clone https://github.com/franciscoBSalgueiro/en-croissant
+    cd en-croissant
+    ```
+  </Step>
+
+  <Step title="Install Dependencies">
+    Install all JavaScript dependencies:
+
+    ```bash
+    pnpm install
+    ```
+
+    This will install:
+    - Frontend dependencies (React, Vite, Mantine, etc.)
+    - Development tools (TypeScript, Biome, Vitest)
+    - Tauri CLI
+  </Step>
+
+  <Step title="Development Build">
+    To run En Croissant in development mode with hot reloading:
+
+    ```bash
+    pnpm dev
+    ```
+
+    This starts:
+    - Vite development server on port 1420
+    - Tauri application window
+    - Hot module replacement for frontend changes
+    - Automatic Rust recompilation on backend changes
+  </Step>
+
+  <Step title="Production Build">
+    To create an optimized production build:
+
+    ```bash
+    pnpm build
+    ```
+
+    This will:
+    1. Run TypeScript type checking
+    2. Build and optimize the frontend with Vite
+    3. Compile the Rust backend in release mode
+    4. Package the application
+
+    The built application can be found at:
+    ```
+    src-tauri/target/release/
+    ```
+  </Step>
+</Steps>
+
+## Additional Build Commands
+
+### Type Checking
+
+Run TypeScript type checking without building:
+
+```bash
+pnpm lint
+```
+
+### Testing
+
+Run the test suite:
+
+```bash
+pnpm test
+```
+
+En Croissant uses Vitest for unit testing.
+
+### Code Formatting
+
+Format code with Biome:
+
+```bash
+pnpm format
+```
+
+Auto-fix linting issues:
+
+```bash
+pnpm lint:fix
+```
+
+### i18n Management
+
+Extract translation strings:
+
+```bash
+pnpm i18n:extract
+```
+
+Check translation status:
+
+```bash
+pnpm i18n:status
+```
+
+## Platform-Specific Notes
+
+### Linux
+
+**AppImage:**
+
+To create an AppImage bundle:
+
+```bash
+pnpm tauri build
+```
+
+The AppImage will be in `src-tauri/target/release/bundle/appimage/`.
+
+**Wayland:**
+
+If you encounter issues on Wayland, you may need to set:
+
+```bash
+export WEBKIT_DISABLE_COMPOSITING_MODE=1
+```
+
+### macOS
+
+**Apple Silicon:**
+
+Building on Apple Silicon (M1/M2) requires no special configuration. Cross-compilation to x86_64 is possible:
+
+```bash
+rustup target add x86_64-apple-darwin
+pnpm tauri build --target x86_64-apple-darwin
+```
+
+**Code Signing:**
+
+For distribution, you'll need an Apple Developer certificate. See [Tauri's macOS signing guide](https://tauri.app/v1/guides/distribution/sign-macos).
+
+### Windows
+
+**MSVC vs GNU:**
+
+Use the MSVC toolchain (default) for best compatibility:
+
+```bash
+rustup default stable-msvc
+```
+
+**Antivirus:**
+
+Some antivirus software may slow down Rust compilation. Consider adding the `target/` directory to your exclusions.
+
+## Troubleshooting
+
+### Build Fails with "Cannot find module"
+
+Ensure dependencies are installed:
+
+```bash
+pnpm install
+```
+
+### Rust Compilation Errors
+
+Update Rust to the latest stable version:
+
+```bash
+rustup update stable
+```
+
+### Tauri CLI Not Found
+
+Reinstall dependencies:
+
+```bash
+pnpm install
+```
+
+Or install Tauri CLI globally:
+
+```bash
+cargo install tauri-cli
+```
+
+### WebView2 Errors (Windows)
+
+Install or update WebView2 Runtime from [Microsoft](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
+
+### Permission Errors (Linux/macOS)
+
+Ensure you have write permissions in the project directory:
+
+```bash
+sudo chown -R $USER:$USER .
+```
+
+## Development Tips
+
+### Faster Builds
+
+**Use `mold` linker (Linux):**
+
+```bash
+sudo apt install mold
+export RUSTFLAGS="-C link-arg=-fuse-ld=mold"
+```
+
+**Use `lld` linker (macOS/Windows):**
+
+Add to `.cargo/config.toml`:
+
+```toml
+[target.x86_64-apple-darwin]
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "link-arg=/usr/bin/lld-link"]
+```
+
+### Debug Builds
+
+For development, debug builds are faster to compile:
+
+```bash
+pnpm dev  # Uses debug build
+```
+
+Release builds are optimized but take longer:
+
+```bash
+pnpm build  # Uses release build
+```
+
+### Clearing Build Cache
+
+If you encounter strange build issues, try clearing the cache:
+
+```bash
+# Clean Rust build artifacts
+cargo clean
+
+# Clean Node modules and reinstall
+rm -rf node_modules
+pnpm install
+```
+
+## Next Steps
+
+Now that you have En Croissant building, check out:
+
+- [Contributing Guide](/advanced/contributing) - Learn how to contribute code
+- [Technical Architecture](/advanced/architecture) - Understand the codebase structure
+- [GitHub Repository](https://github.com/franciscoBSalgueiro/en-croissant) - Browse the source code

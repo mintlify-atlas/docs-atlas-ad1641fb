@@ -1,0 +1,484 @@
+---
+title: "Troubleshooting"
+description: "Common issues and solutions for En Croissant"
+---
+
+## General Issues
+
+<AccordionGroup>
+  <Accordion title="Application won't start or crashes on launch">
+    **Symptoms**: En Croissant doesn't open, crashes immediately, or shows an error message during startup.
+
+    **Solutions**:
+
+    1. **Restart your computer**: Sometimes a simple restart resolves initialization issues
+    
+    2. **Check system requirements**:
+       - Windows 7 or later / macOS 10.13+ / Linux with modern kernel
+       - At least 2GB RAM (4GB+ recommended)
+       - 500MB free disk space
+
+    3. **Update to the latest version**:
+       - Download the newest version from [encroissant.org/download](https://www.encroissant.org/download)
+       - Some bugs are fixed in newer releases
+
+    4. **Check log files** for error messages:
+       - See [Finding Log Files](#finding-log-files) below
+
+    5. **Try resetting configuration**:
+       <Warning>This will reset your settings but preserve your databases</Warning>
+       
+       - Close En Croissant
+       - Rename or delete the configuration file in your app data folder
+       - Restart the application
+
+    6. **Reinstall the application**:
+       - Uninstall En Croissant
+       - Download a fresh copy
+       - Install and try again
+  </Accordion>
+
+  <Accordion title="Application is slow or unresponsive">
+    **Symptoms**: En Croissant feels sluggish, freezes, or takes a long time to respond.
+
+    **Solutions**:
+
+    1. **Check running engines**:
+       - Multiple engines running simultaneously can consume significant CPU
+       - Stop unnecessary engine analysis
+       - Reduce the number of concurrent engines
+
+    2. **Database size considerations**:
+       - Very large databases (100,000+ games) may take longer to search
+       - Consider creating indexes if not already present (see [Database Search](/features/database-search))
+       - Split extremely large databases into smaller, topic-specific ones
+
+    3. **System resources**:
+       - Close other resource-intensive applications
+       - Check if your system has sufficient RAM available
+       - Ensure adequate disk space (at least 1GB free)
+
+    4. **Graphics drivers**:
+       - Update your graphics drivers to the latest version
+       - Some rendering issues can cause slowdowns
+
+    5. **Restart the application**:
+       - Sometimes memory leaks accumulate over long sessions
+       - Restarting can resolve temporary performance issues
+  </Accordion>
+
+  <Accordion title="Updates not working or failing">
+    **Symptoms**: Update check fails, download errors, or update installation problems.
+
+    **Solutions**:
+
+    1. **Check your internet connection**:
+       - Ensure you have a stable connection
+       - Try accessing [encroissant.org](https://www.encroissant.org) in a browser
+
+    2. **Firewall or antivirus interference**:
+       - Temporarily disable firewall/antivirus
+       - If update works, add En Croissant to your security software's whitelist
+
+    3. **Manual download**:
+       - Visit [encroissant.org/download](https://www.encroissant.org/download)
+       - Download and install the latest version manually
+
+    4. **Proxy settings**:
+       - If behind a corporate proxy, ensure your system proxy settings are correct
+       - En Croissant uses system proxy settings
+  </Accordion>
+</AccordionGroup>
+
+## Engine Issues
+
+<AccordionGroup>
+  <Accordion title="Engine not working or not responding">
+    **Symptoms**: Engine doesn't start, doesn't show analysis, or displays "Engine not initialized" error.
+
+    **Solutions**:
+
+    1. **Verify engine installation**:
+       - Go to **Settings** → **Engines**
+       - Check that the engine binary path is correct
+       - Ensure the engine file exists at that location
+
+    2. **Check file permissions**:
+       
+       **On macOS/Linux**:
+       - The engine binary must be executable
+       - En Croissant can set this automatically, or run:
+       ```bash
+       chmod +x /path/to/engine
+       ```
+
+       **On Windows**:
+       - Check if antivirus is blocking the engine
+       - Add the engine to your antivirus exceptions
+
+    3. **Test the engine manually**:
+       - Open a terminal/command prompt
+       - Navigate to the engine directory
+       - Run the engine executable
+       - Type `uci` and press Enter
+       - You should see engine information and `uciok`
+       - If this fails, the engine itself has a problem
+
+    4. **Reinstall the engine**:
+       - Delete the engine from En Croissant
+       - Download a fresh copy
+       - Add it again to En Croissant
+
+    5. **Check engine logs**:
+       - Click the **View Logs** button in engine settings
+       - Look for error messages that indicate what's wrong
+  </Accordion>
+
+  <Accordion title="Wrong engine version or BMI2 issues">
+    **Symptoms**: Engine runs but is slow, crashes, or shows "illegal instruction" errors.
+
+    **Problem**: You may be using a BMI2 engine build on a non-BMI2 CPU.
+
+    **Solution**:
+
+    1. **Check CPU compatibility**:
+       - BMI2 requires Intel Haswell (2013+) or AMD Excavator (2015+) or newer
+       - Older CPUs need non-BMI2 engine builds
+
+    2. **Download the correct engine build**:
+       - For Stockfish and other engines, choose the version matching your CPU
+       - Look for "non-BMI2", "popcnt", or "modern" builds for older CPUs
+       - "BMI2" builds are for newer processors
+
+    3. **Modern CPUs**:
+       - If you have a newer CPU but the BMI2 build doesn't work, try the standard build
+       - Some CPUs have incomplete or buggy BMI2 implementations
+  </Accordion>
+
+  <Accordion title="Engine analysis is incorrect or behaving strangely">
+    **Symptoms**: Engine gives odd evaluations, suggests illegal moves, or displays errors.
+
+    **Solutions**:
+
+    1. **Verify position legality**:
+       - Ensure the board position is legal
+       - Invalid positions can cause engine errors
+
+    2. **Check engine configuration**:
+       - Review UCI options in **Settings** → **Engines**
+       - Reset to defaults if you've changed settings
+       - Some incorrect settings can cause strange behavior
+
+    3. **Try a different engine**:
+       - Test with another engine (like Stockfish)
+       - If other engines work, the problem is with that specific engine
+
+    4. **Update the engine**:
+       - You may be using an old or buggy version
+       - Download the latest version of your engine
+  </Accordion>
+
+  <Accordion title="Multiple engines conflict or crash">
+    **Symptoms**: Running multiple engines causes crashes, freezes, or one engine stops working.
+
+    **Solutions**:
+
+    1. **Reduce resource usage**:
+       - Lower the thread count for each engine
+       - Reduce hash table sizes
+       - Don't run too many engines simultaneously
+
+    2. **System resources**:
+       - Ensure you have enough RAM for multiple engines
+       - Each engine with 1GB hash needs at least 1GB RAM
+       - Modern engines with 4+ threads need adequate CPU cores
+
+    3. **Restart engines**:
+       - Stop all running engines
+       - Clear engine processes
+       - Start them again one at a time
+  </Accordion>
+</AccordionGroup>
+
+## Database & Import Issues
+
+<AccordionGroup>
+  <Accordion title="Cannot import PGN file">
+    **Symptoms**: PGN import fails, shows errors, or imports incomplete data.
+
+    **Solutions**:
+
+    1. **Check PGN file format**:
+       - Ensure the file is valid PGN format
+       - Open in a text editor to verify it looks correct
+       - Look for unusual characters or encoding issues
+
+    2. **File encoding**:
+       - PGN files should be UTF-8 encoded
+       - Files with other encodings may cause issues
+       - Convert to UTF-8 using a text editor if needed
+
+    3. **File size**:
+       - Very large PGN files (100MB+) may take a long time to import
+       - Be patient and let the import complete
+       - Check progress in the notification area
+
+    4. **Disk space**:
+       - Ensure sufficient free disk space
+       - SQLite databases can be larger than the PGN file
+       - Allow at least 2x the PGN file size in free space
+
+    5. **Try importing in chunks**:
+       - Split large PGN files into smaller parts
+       - Import them separately
+       - Merge databases afterward if needed
+
+    6. **Validate PGN**:
+       - Use an online PGN validator to check for errors
+       - Fix any reported issues before importing
+  </Accordion>
+
+  <Accordion title="Database search not working or returning no results">
+    **Symptoms**: Position search returns nothing, player search fails, or database appears empty.
+
+    **Solutions**:
+
+    1. **Verify database has games**:
+       - Check the game count in database info
+       - Ensure games were actually imported successfully
+
+    2. **Database indexes**:
+       - Position search requires indexes
+       - Go to database settings and create indexes if missing
+       - See [Database Search](/features/database-search) for details
+
+    3. **Search criteria**:
+       - Double-check your search parameters
+       - Try broadening your search criteria
+       - Ensure proper spelling for player names
+
+    4. **Database corruption**:
+       - If database was interrupted during creation, it may be corrupt
+       - Try exporting to PGN and reimporting
+       - Or restore from a backup if available
+  </Accordion>
+
+  <Accordion title="Cannot connect to lichess.org or chess.com">
+    **Symptoms**: OAuth login fails, import from online platforms doesn't work.
+
+    **Solutions**:
+
+    1. **Check internet connection**:
+       - Verify you can access the websites in a browser
+       - Ensure no firewall is blocking connections
+
+    2. **OAuth port conflict**:
+       - En Croissant uses a local port for OAuth callback
+       - Ensure another application isn't using the same port
+       - Try restarting the application
+
+    3. **Browser issues**:
+       - OAuth opens in your default browser
+       - Try setting a different default browser temporarily
+       - Clear browser cache and cookies for the chess site
+
+    4. **Reauthenticate**:
+       - Go to **Settings** → **Accounts**
+       - Remove the account and re-add it
+       - Complete the OAuth flow again
+
+    5. **Rate limiting**:
+       - If importing many games, you may hit API rate limits
+       - Wait a few minutes and try again
+       - Import in smaller batches
+  </Accordion>
+
+  <Accordion title="Database is corrupt or shows errors">
+    **Symptoms**: "Database malformed" error, crashes when opening database, missing games.
+
+    **Solutions**:
+
+    1. **Backup first**:
+       <Warning>Always create a backup before attempting repairs</Warning>
+       - Export database to PGN format
+       - Copy the database file itself as backup
+
+    2. **Export and reimport**:
+       - Export the database to PGN
+       - Create a new database
+       - Import the PGN into the new database
+
+    3. **SQLite repair** (advanced):
+       - Use SQLite command-line tools
+       - Run `.recover` command
+       - This requires technical knowledge
+
+    4. **Restore from backup**:
+       - If you have a backup, restore it
+       - Resume from the last known good state
+  </Accordion>
+</AccordionGroup>
+
+## Platform-Specific Issues
+
+### Windows
+
+<AccordionGroup>
+  <Accordion title="Windows Defender or antivirus blocking En Croissant">
+    **Symptoms**: Can't install, engines don't work, or application is quarantined.
+
+    **Solution**:
+
+    1. Add En Croissant to Windows Defender exclusions:
+       - Open Windows Security
+       - Go to **Virus & threat protection**
+       - Click **Manage settings**
+       - Under **Exclusions**, click **Add or remove exclusions**
+       - Add the En Croissant installation folder
+
+    2. For other antivirus software:
+       - Consult your antivirus documentation
+       - Add both En Croissant and your engines folder to exclusions
+  </Accordion>
+
+  <Accordion title="Missing .NET or Visual C++ dependencies">
+    **Symptoms**: Error about missing DLLs or runtime components.
+
+    **Solution**:
+
+    Download and install:
+    - [Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)
+    - Restart your computer after installation
+  </Accordion>
+</AccordionGroup>
+
+### macOS
+
+<AccordionGroup>
+  <Accordion title="Cannot open because it's from an unidentified developer">
+    **Symptoms**: macOS blocks En Croissant from opening.
+
+    **Solution**:
+
+    1. **First time opening**:
+       - Right-click (or Control-click) the En Croissant app
+       - Select **Open** from the menu
+       - Click **Open** in the dialog
+
+    2. **Or use System Settings**:
+       - Go to **System Settings** → **Privacy & Security**
+       - Under **Security**, click **Open Anyway** next to the En Croissant message
+
+    3. **For engines**:
+       - Same process for any engine binaries that are blocked
+       - En Croissant can automatically set execute permissions
+  </Accordion>
+
+  <Accordion title="Engine permission issues on macOS">
+    **Symptoms**: Engine won't start, permission denied errors.
+
+    **Solution**:
+
+    ```bash
+    chmod +x /path/to/engine
+    ```
+
+    Or use En Croissant's built-in "Set as executable" function in engine settings.
+  </Accordion>
+</AccordionGroup>
+
+### Linux
+
+<AccordionGroup>
+  <Accordion title="Missing shared libraries">
+    **Symptoms**: Error about missing `.so` files when starting En Croissant.
+
+    **Solution**:
+
+    Install required dependencies:
+
+    **Debian/Ubuntu**:
+    ```bash
+    sudo apt-get install libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev
+    ```
+
+    **Fedora**:
+    ```bash
+    sudo dnf install webkit2gtk4.1-devel gtk3-devel libappindicator-gtk3-devel
+    ```
+
+    **Arch Linux**:
+    ```bash
+    sudo pacman -S webkit2gtk gtk3 libappindicator-gtk3
+    ```
+  </Accordion>
+
+  <Accordion title="AppImage won't run">
+    **Symptoms**: Double-clicking AppImage doesn't start En Croissant.
+
+    **Solution**:
+
+    1. **Make it executable**:
+       ```bash
+       chmod +x EnCroissant.AppImage
+       ```
+
+    2. **Run from terminal** to see error messages:
+       ```bash
+       ./EnCroissant.AppImage
+       ```
+
+    3. **FUSE requirements**:
+       - Some systems need FUSE to run AppImages
+       - Install `fuse` or `fuse2` package for your distribution
+  </Accordion>
+</AccordionGroup>
+
+## Finding Log Files
+
+Log files contain detailed error information that can help diagnose issues.
+
+### Log file locations:
+
+**Windows**:
+```
+%APPDATA%\en-croissant\logs\
+```
+
+**macOS**:
+```
+~/Library/Logs/com.encroissant.app/
+```
+
+**Linux**:
+```
+~/.config/en-croissant/logs/
+```
+
+### Viewing logs:
+
+1. Navigate to the log directory for your platform
+2. Open the most recent log file in a text editor
+3. Look for errors (usually marked with `ERROR` or `WARN`)
+4. Include relevant log excerpts when reporting issues
+
+<Tip>
+Logs are organized by date. Check the most recent file first when troubleshooting.
+</Tip>
+
+## Still Need Help?
+
+If none of these solutions work:
+
+1. **Check the FAQ**: See [Frequently Asked Questions](/resources/faq) for more information
+2. **Ask the community**: Join our [Discord server](https://discord.gg/tdYzfDbSSW)
+3. **Report an issue**: Create a detailed bug report on [GitHub](https://github.com/franciscoBSalgueiro/en-croissant/issues)
+
+<Note>
+When asking for help, include:
+- Your operating system and version
+- En Croissant version
+- Steps to reproduce the issue
+- Any error messages or log excerpts
+- What you've already tried
+</Note>

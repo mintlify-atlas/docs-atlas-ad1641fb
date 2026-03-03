@@ -1,0 +1,382 @@
+---
+title: Analyzing Games
+description: Master the analysis workflow with engines, annotations, and reports in En Croissant
+---
+
+En Croissant provides powerful analysis tools powered by chess engines like Stockfish. This guide covers the complete workflow from opening games to generating detailed analysis reports.
+
+## Opening Games for Analysis
+
+### From PGN Files
+
+<Steps>
+  <Step title="Open File">
+    Press `Cmd+O` (Mac) or `Ctrl+O` (Windows/Linux) to open the file picker.
+  </Step>
+  
+  <Step title="Select PGN">
+    Choose a `.pgn` file from your computer. Files with multiple games will show a game selector.
+  </Step>
+  
+  <Step title="New Analysis Tab">
+    The game opens in a new analysis tab with all features enabled.
+  </Step>
+</Steps>
+
+### From Databases
+
+<Steps>
+  <Step title="Browse Database">
+    Navigate to Databases and open any database.
+  </Step>
+  
+  <Step title="Find Game">
+    Use filters to search by player, date, rating, or result.
+  </Step>
+  
+  <Step title="Open Game">
+    Double-click any game to open it in a new analysis tab.
+  </Step>
+</Steps>
+
+### Quick Navigation
+
+- **New Tab**: `Cmd+T` / `Ctrl+T`
+- **Close Tab**: `Cmd+W` / `Ctrl+W`
+- **Cycle Tabs**: `Ctrl+Tab`
+- **Reverse Cycle**: `Ctrl+Shift+Tab`
+
+## Using Engine Analysis
+
+### Starting Analysis
+
+<Steps>
+  <Step title="Open Analysis Panel">
+    Press `A` to switch to the Analysis tab in the right sidebar.
+  </Step>
+  
+  <Step title="Select Engines">
+    Click the engine selector (icon) to choose which engines to enable.
+  </Step>
+  
+  <Step title="Start Analyzing">
+    Engines automatically analyze each position as you navigate through the game.
+  </Step>
+</Steps>
+
+### Understanding Engine Output
+
+Each engine displays:
+
+- **Evaluation**: Numerical score (e.g., +1.5 means White is up 1.5 pawns)
+- **Depth**: How many moves ahead the engine has calculated
+- **Best Lines**: Top recommended move sequences
+- **Mate Scores**: "M7" means mate in 7 moves
+
+<Accordion title="How to Read Evaluations">
+  **Positive scores** (+): White is better
+  
+  **Negative scores** (−): Black is better
+  
+  **Centipawns**: Scores are in centipawns (100 = 1 pawn advantage)
+  
+  **Mate notation**: M5 = mate in 5 moves for the side to move
+  
+  **Equality indicators**:
+  - 0.0 to ±0.2: Equal
+  - ±0.2 to ±1.0: Slight advantage
+  - ±1.0 to ±3.0: Clear advantage
+  - ±3.0+: Winning advantage
+</Accordion>
+
+### Configuring Engine Settings
+
+<Steps>
+  <Step title="Open Engine Settings">
+    Click the settings icon on any engine card.
+  </Step>
+  
+  <Step title="Adjust Analysis Mode">
+    Choose between:
+    - **Depth**: Analyze to a specific depth (e.g., 20 moves)
+    - **Time**: Analyze for a set duration (e.g., 5 seconds)
+    - **Nodes**: Analyze a specific number of positions
+    - **Infinite**: Analyze until manually stopped
+  </Step>
+  
+  <Step title="Configure Lines">
+    Set "Number of Lines" (MultiPV) to see multiple best moves (1-5 recommended).
+  </Step>
+  
+  <Step title="Optimize Performance">
+    See [Engine Configuration](/guides/engine-configuration) for detailed tuning.
+  </Step>
+</Steps>
+
+### Multiple Engine Comparison
+
+Analyze with multiple engines simultaneously:
+
+1. **Enable Multiple Engines**: Use the engine selector to load 2-4 engines
+2. **Compare Evaluations**: See if engines agree on the position
+3. **Different Styles**: Some engines are more aggressive, others more defensive
+4. **Summary View**: When 2+ engines are active, see a summary card at the top
+
+<Note>
+  Running multiple engines requires more CPU resources. Close unnecessary engines if performance is slow.
+</Note>
+
+### Engine Controls
+
+- **Toggle All Engines**: `Ctrl+A` enables/pauses all engines at once
+- **Reorder Engines**: Drag and drop engine cards to rearrange
+- **Individual Control**: Click play/pause on each engine card
+- **Kill Engine**: Use the stop button if an engine becomes unresponsive
+
+## Annotating Games
+
+### Adding Move Annotations
+
+Press number keys to add standard chess annotations:
+
+| Key | Symbol | Meaning |
+|-----|--------|----------|
+| `1` | ‼ | Brilliant move |
+| `2` | ! | Good move |
+| `3` | !? | Interesting move |
+| `4` | ?! | Dubious move |
+| `5` | ? | Mistake |
+| `6` | ?? | Blunder |
+
+<Steps>
+  <Step title="Navigate to Move">
+    Click on any move in the game notation.
+  </Step>
+  
+  <Step title="Add Annotation">
+    Press the corresponding number key (1-6).
+  </Step>
+  
+  <Step title="Toggle Annotation">
+    Press the same key again to remove the annotation.
+  </Step>
+</Steps>
+
+### Adding Variations
+
+<Steps>
+  <Step title="Navigate to Position">
+    Go to the move where you want to add an alternative.
+  </Step>
+  
+  <Step title="Make Alternative Move">
+    Click on the board to make a different move than what was played.
+  </Step>
+  
+  <Step title="Continue Variation">
+    Keep adding moves to develop the alternative line.
+  </Step>
+  
+  <Step title="Return to Main Line">
+    Use the up arrow or click on the main line in the notation.
+  </Step>
+</Steps>
+
+### Navigating Variations
+
+- **Next Branch**: `C` - Move to the next sibling variation
+- **Previous Branch**: `X` - Move to the previous sibling variation
+- **Branch Start**: `↑` - Go to the start of current variation
+- **Branch End**: `↓` - Go to the end of current variation
+- **Next Branching Point**: `Shift+→` - Jump to next position with variations
+- **Previous Branching Point**: `Shift+←` - Jump to previous position with variations
+
+### Adding Text Comments
+
+<Steps>
+  <Step title="Switch to Annotate Tab">
+    Press `D` to open the Annotate panel.
+  </Step>
+  
+  <Step title="Select Move">
+    Click on any move in the notation.
+  </Step>
+  
+  <Step title="Write Comment">
+    Type your analysis, observations, or notes in the comment field.
+  </Step>
+  
+  <Step title="Comments Auto-Save">
+    Comments are saved automatically when you navigate away.
+  </Step>
+</Steps>
+
+### Visual Annotations (Arrows and Highlights)
+
+<Steps>
+  <Step title="Draw Arrows">
+    **Right-click and drag** on the board to draw arrows showing key squares or threats.
+  </Step>
+  
+  <Step title="Highlight Squares">
+    **Right-click** a square to highlight it.
+  </Step>
+  
+  <Step title="Clear All Shapes">
+    Press `Ctrl+L` to remove all arrows and highlights.
+  </Step>
+</Steps>
+
+<Tip>
+  Arrows and highlights are saved with each position and automatically appear when you return to that move.
+</Tip>
+
+## Generating Analysis Reports
+
+En Croissant can automatically analyze entire games and generate comprehensive reports.
+
+### Creating a Report
+
+<Steps>
+  <Step title="Open Report Panel">
+    Click the "Report" tab in the Analysis panel.
+  </Step>
+  
+  <Step title="Configure Analysis">
+    Click "Generate Report" to open the report settings:
+    - **Engine**: Choose which engine to use
+    - **Depth**: Set analysis depth (20-30 recommended)
+    - **Time per move**: Or set time limit per position
+    - **Annotation thresholds**: Configure when to mark moves as mistakes/blunders
+  </Step>
+  
+  <Step title="Start Analysis">
+    Click "Analyze" to begin. Progress is shown in real-time.
+  </Step>
+  
+  <Step title="Review Results">
+    The report automatically annotates moves and adds engine variations.
+  </Step>
+</Steps>
+
+### Report Features
+
+**Accuracy Scores**:
+- Overall accuracy percentage for White and Black
+- Average centipawn loss (ACPL) per move
+
+**Evaluation Chart**:
+- Visual graph of position evaluation throughout the game
+- Click any point to jump to that move
+- Clearly shows mistakes, blunders, and turning points
+
+**Move Classification**:
+- Brilliant moves (‼): Moves even better than the engine's top choice
+- Good moves (!): Top engine recommendation
+- Mistakes (?): Significant evaluation drops
+- Blunders (??): Major evaluation swings
+
+**Annotation Statistics**:
+- Count of each annotation type for both players
+- Click numbers to navigate to annotated moves
+
+### Customizing Report Settings
+
+Adjust annotation thresholds:
+
+- **Blunder threshold**: Default −200 centipawns (e.g., missing a piece)
+- **Mistake threshold**: Default −100 centipawns (e.g., losing a pawn)
+- **Dubious threshold**: Default −50 centipawns (e.g., slight inaccuracy)
+
+<Note>
+  Higher thresholds = stricter evaluation (fewer annotations). Lower thresholds = more lenient (more annotations).
+</Note>
+
+## Navigation Shortcuts
+
+### Move Navigation
+
+| Action | Shortcut |
+|--------|----------|
+| Next move | `→` |
+| Previous move | `←` |
+| Game start | `Shift+↑` |
+| Game end | `Shift+↓` |
+| Branch start | `↑` |
+| Branch end | `↓` |
+| Next variation | `C` |
+| Previous variation | `X` |
+
+### Panel Navigation
+
+| Panel | Shortcut |
+|-------|----------|
+| Practice | `P` |
+| Analysis | `A` |
+| Database | `B` |
+| Annotate | `D` |
+| Info | `I` |
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Set Appropriate Depth" icon="gauge">
+    Use depth 20-25 for quick analysis, 30-40 for deep analysis. Higher depths take exponentially longer.
+  </Card>
+  
+  <Card title="Analyze Critical Positions" icon="crosshairs">
+    Focus engine time on complex middlegame positions rather than simple endgames.
+  </Card>
+  
+  <Card title="Add Context in Comments" icon="message">
+    Explain the ideas behind moves, not just engine evaluations. Include plans and positional themes.
+  </Card>
+  
+  <Card title="Save Regularly" icon="floppy-disk">
+    Press `Cmd+S` / `Ctrl+S` to save your annotations and analysis to a PGN file.
+  </Card>
+  
+  <Card title="Use Multiple Lines" icon="list">
+    Set MultiPV to 3-5 to see alternative plans and tactical options.
+  </Card>
+  
+  <Card title="Compare with Reference" icon="database">
+    Check database statistics (press `B`) to see how masters handled similar positions.
+  </Card>
+</CardGroup>
+
+## Advanced Techniques
+
+### Tablebase Analysis
+
+For endgames with 7 or fewer pieces:
+- En Croissant automatically queries Syzygy tablebases
+- Shows guaranteed best moves and distance to mate
+- Displayed automatically in positions that qualify
+
+### Blunder Checking
+
+<Steps>
+  <Step title="Generate Report">
+    Create an analysis report for the entire game.
+  </Step>
+  
+  <Step title="Review Mistakes">
+    Click on blunder/mistake counts to navigate through errors.
+  </Step>
+  
+  <Step title="Find Alternatives">
+    Study the engine's suggested improvements at each critical moment.
+  </Step>
+</Steps>
+
+### Opening Preparation
+
+1. **Load Reference Database**: Mark a large database as reference
+2. **Explore Openings**: Play moves and see statistics from master games
+3. **Add to Repertoire**: Save good lines to your repertoire for practice
+4. **Annotate Key Ideas**: Add comments explaining opening concepts
+
+<Tip>
+  Combine database statistics (press `B`) with engine analysis (press `A`) to understand both practical results and objective evaluations.
+</Tip>

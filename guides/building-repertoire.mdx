@@ -1,0 +1,372 @@
+---
+title: Building Your Repertoire
+description: Create, train, and maintain your chess opening repertoire with spaced repetition
+---
+
+En Croissant's repertoire system helps you build and memorize your opening lines using scientifically-proven spaced repetition. Train efficiently and track your progress over time.
+
+## What is a Repertoire?
+
+A chess repertoire is your collection of prepared opening lines:
+- **White repertoire**: Your responses as White to Black's defenses
+- **Black repertoire**: Your responses to White's openings
+- **Structured learning**: Instead of random practice, focus on specific variations
+- **Long-term retention**: Spaced repetition ensures you remember lines weeks and months later
+
+## Setting Up a Repertoire
+
+### Creating a New Repertoire File
+
+<Steps>
+  <Step title="Create New Tab">
+    Press `Cmd+T` / `Ctrl+T` to create a new analysis tab.
+  </Step>
+  
+  <Step title="Set Orientation">
+    - Press `F` to flip the board if needed
+    - Choose White's perspective for White repertoire
+    - Choose Black's perspective for Black repertoire
+  </Step>
+  
+  <Step title="Configure Starting Position">
+    For Black repertoires, you may want to set a starting position after White's first move:
+    - Make White's opening move (e.g., 1.e4)
+    - This becomes your repertoire's starting position
+  </Step>
+  
+  <Step title="Save as PGN">
+    Press `Cmd+S` / `Ctrl+S` and give your repertoire a descriptive name (e.g., "French Defense Repertoire").
+  </Step>
+</Steps>
+
+<Note>
+  The "orientation" setting determines which side you're practicing. En Croissant will only quiz you on your moves, not your opponent's responses.
+</Note>
+
+## Adding Lines and Variations
+
+### Adding Main Lines
+
+<Steps>
+  <Step title="Enter Moves">
+    Click on the board or type moves to build your repertoire line.
+  </Step>
+  
+  <Step title="Add Multiple Responses">
+    When opponents have multiple reasonable moves, add variations for each:
+    - Navigate to the position
+    - Click an alternative move to create a new branch
+  </Step>
+  
+  <Step title="Build Full Variations">
+    Continue each line until you reach a position where:
+    - You achieve your desired setup
+    - The position transposes to another line
+    - You're out of the opening (typically 10-15 moves)
+  </Step>
+</Steps>
+
+### Importing from Games
+
+<Steps>
+  <Step title="Find Model Game">
+    Search your database for a game with the opening you want to learn.
+  </Step>
+  
+  <Step title="Open Game">
+    Double-click to open the game in a new tab.
+  </Step>
+  
+  <Step title="Copy Relevant Moves">
+    - Navigate through the opening phase
+    - The moves are automatically saved when you save the file
+  </Step>
+  
+  <Step title="Merge into Repertoire">
+    Copy the moves to your repertoire file and merge with existing lines.
+  </Step>
+</Steps>
+
+### Using Engine Recommendations
+
+<Steps>
+  <Step title="Enable Engine">
+    Press `A` to open the Analysis panel and ensure an engine is running.
+  </Step>
+  
+  <Step title="Review Suggestions">
+    Check the top engine moves for strong alternatives.
+  </Step>
+  
+  <Step title="Add Promising Lines">
+    Click on engine suggestions to add them to your repertoire tree.
+  </Step>
+  
+  <Step title="Annotate Critical Positions">
+    Press `D` for the Annotate panel and add notes explaining key ideas.
+  </Step>
+</Steps>
+
+### Organizing Complex Repertoires
+
+**Use comments to mark sections:**
+- "Main Line"
+- "Sideline - rarely played"
+- "Critical test of the system"
+- "Transposition to [opening name]"
+
+**Use move annotations:**
+- `!` for your repertoire moves (recommended)
+- `?!` for opponent's tricky tries
+- `!?` for interesting alternatives to consider
+
+<Tip>
+  Keep your repertoire focused. It's better to know 3-4 defenses deeply than 10 defenses superficially.
+</Tip>
+
+## Training with Spaced Repetition
+
+### Understanding the System
+
+En Croissant uses the **FSRS algorithm** (Free Spaced Repetition Scheduler):
+- **New positions**: Appear frequently until learned
+- **Learned positions**: Appear at increasing intervals
+- **Difficult positions**: Appear more often until mastered
+- **Easy positions**: Appear rarely to maintain retention
+
+### Starting a Practice Session
+
+<Steps>
+  <Step title="Open Your Repertoire">
+    Open your saved repertoire PGN file.
+  </Step>
+  
+  <Step title="Switch to Practice Tab">
+    Press `P` or click the "Train" tab in the right panel.
+  </Step>
+  
+  <Step title="Review Statistics">
+    See your practice progress:
+    - **Practiced**: Positions you've reviewed
+    - **Due**: Positions scheduled for review today
+    - **Unseen**: New positions never practiced
+  </Step>
+  
+  <Step title="Start Practice">
+    Click "Start Practice" to begin your training session.
+  </Step>
+</Steps>
+
+### During Practice
+
+<Accordion title="Making Your Move">
+  1. **Position appears**: The board shows a position from your repertoire
+  2. **Pieces are hidden**: Your pieces are blurred (toggle with `Ctrl+B` if needed)
+  3. **Make the move**: Click to make what you think is the correct repertoire move
+  4. **Feedback**:
+     - ✓ **Correct**: You made the right move
+     - ✗ **Incorrect**: Shows which move you should have played
+</Accordion>
+
+### Rating Your Recall
+
+After each correct answer, rate how difficult it was:
+
+| Rating | Key | Meaning | Next Review |
+|--------|-----|---------|-------------|
+| **Again** | `1` | Completely forgot | Minutes |
+| **Hard** | `2` | Struggled to remember | Days |
+| **Good** | `3` | Remembered with effort | Weeks |
+| **Easy** | `4` | Instant recall | Months |
+
+<Note>
+  Be honest with your ratings! Rating "Easy" when you struggled will hurt your long-term retention.
+</Note>
+
+### Session Statistics
+
+Track your performance:
+- **Correct moves**: Total positions answered correctly
+- **Incorrect moves**: Positions you got wrong
+- **Accuracy**: Percentage of correct responses
+- **Current streak**: Consecutive correct answers
+- **Best streak**: Your record streak this session
+
+## Tracking Weak Spots
+
+### Identifying Problem Areas
+
+<Steps>
+  <Step title="Open Position List">
+    In the Practice tab, click "Show All" to see all positions.
+  </Step>
+  
+  <Step title="Review Status">
+    Each position shows:
+    - **Unseen**: Gray badge - never practiced
+    - **Due**: Yellow badge - scheduled for today
+    - **Practiced**: Blue badge - not due yet
+  </Step>
+  
+  <Step title="Check Due Dates">
+    Positions you struggle with will have closer due dates.
+  </Step>
+  
+  <Step title="Practice Logs">
+    Click "Show Logs" to see your rating history for each position.
+  </Step>
+</Steps>
+
+### Fixing Weak Lines
+
+<Steps>
+  <Step title="Navigate to Position">
+    Click the arrow on any position card to jump to it on the board.
+  </Step>
+  
+  <Step title="Study the Position">
+    - Turn off blur (`Ctrl+B`) to see the pieces
+    - Review your comments and annotations
+    - Check engine analysis for the key ideas
+  </Step>
+  
+  <Step title="Switch to Build Mode">
+    Press `P` and select "Build" tab to add more context:
+    - Add comments explaining the key ideas
+    - Mark critical moves with annotations
+    - Add alternative lines if needed
+  </Step>
+  
+  <Step title="Practice Again">
+    Return to training and focus on the problematic variation.
+  </Step>
+</Steps>
+
+## Repertoire Maintenance
+
+### Syncing with Tree Changes
+
+When you modify your repertoire:
+- **Added positions**: Automatically added to practice deck
+- **Removed lines**: Removed from practice deck
+- **Sync notification**: Shows how many positions were added/removed
+
+<Note>
+  Your practice history is preserved even when you modify the repertoire. Only genuinely new/removed positions affect your deck.
+</Note>
+
+### Regular Maintenance Tasks
+
+<Accordion title="Weekly Review">
+  - Complete all "Due" positions
+  - Review positions with many "Again" ratings
+  - Add new lines based on recent games
+  - Remove abandoned variations
+</Accordion>
+
+<Accordion title="Monthly Audit">
+  - Check for outdated theory (compare with recent master games)
+  - Consolidate similar variations
+  - Add engine-checked improvements
+  - Ensure all critical positions have comments
+</Accordion>
+
+<Accordion title="Quarterly Refresh">
+  - Review entire repertoire for gaps
+  - Test against latest opening trends
+  - Add responses to new opponent surprises
+  - Consider repertoire changes based on your playing style evolution
+</Accordion>
+
+### Resetting Progress
+
+If you want to start over:
+
+<Steps>
+  <Step title="Open Practice Panel">
+    Press `P` to access practice mode.
+  </Step>
+  
+  <Step title="Click Reset">
+    At the bottom, click the "Reset" button.
+  </Step>
+  
+  <Step title="Confirm">
+    This clears all practice history and due dates. All positions return to "Unseen" status.
+  </Step>
+</Steps>
+
+<Warning>
+  Resetting cannot be undone. Your practice history and scheduling will be permanently erased.
+</Warning>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Practice Daily" icon="calendar">
+    Even 10-15 minutes daily is better than long sessions once a week. Consistency is key for memory retention.
+  </Card>
+  
+  <Card title="Start Small" icon="seedling">
+    Build your repertoire gradually. Master core lines before adding exotic sidelines.
+  </Card>
+  
+  <Card title="Add Context" icon="comment">
+    Comment on key ideas, plans, and tactics. Understanding helps memorization.
+  </Card>
+  
+  <Card title="Test in Games" icon="chess-knight">
+    Play your repertoire in real games. Update based on what works and what doesn't.
+  </Card>
+  
+  <Card title="Be Honest with Ratings" icon="balance-scale">
+    Accurate difficulty ratings optimize your review schedule. Don't mark "Easy" when you struggled.
+  </Card>
+  
+  <Card title="Cover Opponent Options" icon="arrows-split">
+    Include all reasonable opponent responses, not just the main line.
+  </Card>
+</CardGroup>
+
+## Advanced Tips
+
+### Optimizing Your Schedule
+
+- **Morning reviews**: Practice before games for best recall
+- **Batch similar lines**: Practice related variations together
+- **Skip ahead**: Use "Show All" to practice specific lines out of schedule
+
+### Using Build Mode Effectively
+
+<Steps>
+  <Step title="Switch to Build Tab">
+    In the Practice panel, click the "Build" tab.
+  </Step>
+  
+  <Step title="View Repertoire Statistics">
+    See total positions, coverage depth, and branching factor.
+  </Step>
+  
+  <Step title="Identify Gaps">
+    Look for opponent moves without responses in your tree.
+  </Step>
+  
+  <Step title="Add Missing Lines">
+    Fill gaps while in Build mode, then return to Train mode.
+  </Step>
+</Steps>
+
+### Keyboard Shortcuts for Practice
+
+| Action | Shortcut |
+|--------|----------|
+| Rate "Again" | `1` |
+| Rate "Hard" | `2` |
+| Rate "Good" | `3` |
+| Rate "Easy" | `4` |
+| Skip position (after wrong answer) | `Space` |
+| Toggle piece visibility | `Ctrl+B` |
+
+<Tip>
+  Create separate repertoire files for White and Black, and for different opening systems (e.g., "e4 repertoire" and "d4 repertoire").
+</Tip>

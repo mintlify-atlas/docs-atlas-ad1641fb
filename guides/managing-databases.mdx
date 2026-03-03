@@ -1,0 +1,298 @@
+---
+title: Managing Databases
+description: Complete guide to creating, maintaining, and optimizing chess databases in En Croissant
+---
+
+En Croissant uses SQLite databases to efficiently store and query large collections of chess games. This guide covers everything you need to know about database management.
+
+## Creating Databases
+
+### From Local PGN Files
+
+<Steps>
+  <Step title="Open the Database Page">
+    Navigate to the Databases section from the sidebar.
+  </Step>
+  
+  <Step title="Click Add Database">
+    Click the "Add Database" button (+ icon) to open the creation dialog.
+  </Step>
+  
+  <Step title="Select Local Tab">
+    In the modal, switch to the "Local" tab.
+  </Step>
+  
+  <Step title="Choose Your PGN File">
+    - Click to select a PGN file from your computer
+    - Supported formats: `.pgn` and `.pgn.zst` (compressed)
+    - The database name will auto-populate from the filename
+  </Step>
+  
+  <Step title="Configure Database">
+    - **Name**: Edit the auto-generated name if desired (required)
+    - **Description**: Add an optional description for organization
+  </Step>
+  
+  <Step title="Convert and Import">
+    Click "Convert" to begin the import process. Large databases may take several minutes.
+  </Step>
+</Steps>
+
+<Note>
+  During conversion, you'll see progress statistics including total games imported and conversion speed (games/second).
+</Note>
+
+### From Online Sources
+
+En Croissant provides curated databases that can be downloaded directly:
+
+<Steps>
+  <Step title="Open Add Database Dialog">
+    Click the "Add Database" button on the Databases page.
+  </Step>
+  
+  <Step title="Browse Web Databases">
+    Stay on the "Web" tab to see available databases.
+  </Step>
+  
+  <Step title="Choose a Database">
+    Each database card shows:
+    - **Size**: Download size
+    - **Games**: Number of games included
+    - **Players**: Number of unique players
+  </Step>
+  
+  <Step title="Install">
+    Click "Install" to download and set up the database automatically.
+  </Step>
+</Steps>
+
+## Database Settings
+
+### General Settings
+
+Select any database to view and edit its settings:
+
+- **Name**: The display name (must be unique)
+- **Description**: Optional notes about the database contents
+- **Reference Database**: Mark with a star to use for opening references
+
+### Indexing
+
+<Accordion title="What is database indexing?">
+  Indexing creates additional data structures that dramatically speed up searches and queries. Indexed databases are much faster for filtering games by player, date, or result.
+  
+  **Trade-offs:**
+  - **Pros**: 10-100x faster queries, required for large databases
+  - **Cons**: Increases storage size by ~20-30%
+</Accordion>
+
+<Steps>
+  <Step title="Select Database">
+    Click on a database to view its settings panel.
+  </Step>
+  
+  <Step title="Enable Indexing">
+    Check the "Indexed" checkbox. The indexing process will begin automatically.
+  </Step>
+  
+  <Step title="Wait for Completion">
+    A loading indicator shows progress. Large databases may take several minutes to index.
+  </Step>
+</Steps>
+
+<Tip>
+  Always enable indexing for databases with more than 10,000 games to ensure optimal performance.
+</Tip>
+
+## Adding Games to Existing Databases
+
+You can append additional games to any database:
+
+<Steps>
+  <Step title="Select the Database">
+    Click on the database you want to add games to.
+  </Step>
+  
+  <Step title="Click Add Games">
+    In the settings panel, click the "Add Games" button (+ icon).
+  </Step>
+  
+  <Step title="Select PGN File">
+    Choose a PGN file containing the games to import.
+  </Step>
+  
+  <Step title="Automatic Merge">
+    Games will be appended to the database. The game count updates automatically.
+  </Step>
+</Steps>
+
+## Database Formats and Conversions
+
+### Supported Formats
+
+**Import formats:**
+- `.pgn` - Standard Portable Game Notation
+- `.pgn.zst` - Zstandard compressed PGN (recommended for large files)
+
+**Database format:**
+- `.db3` - SQLite 3 database (En Croissant's native format)
+
+### Exporting to PGN
+
+Export any database back to PGN format:
+
+<Steps>
+  <Step title="Select Database">
+    Click the database you want to export.
+  </Step>
+  
+  <Step title="Click Export PGN">
+    In the settings panel, click "Export PGN" (→ icon).
+  </Step>
+  
+  <Step title="Choose Save Location">
+    Select where to save the `.pgn` file.
+  </Step>
+  
+  <Step title="Wait for Export">
+    Large databases may take time to export.
+  </Step>
+</Steps>
+
+## Maintenance and Optimization
+
+### Removing Duplicate Games
+
+Over time, databases may accumulate duplicate games from multiple imports:
+
+<Steps>
+  <Step title="Navigate to Advanced Tools">
+    Select your database and scroll to the "Advanced Tools" section.
+  </Step>
+  
+  <Step title="Click Remove Duplicates">
+    Click "Remove Duplicates" under Batch Delete operations.
+  </Step>
+  
+  <Step title="Confirm and Wait">
+    The operation scans for games with identical moves and metadata, keeping only one copy of each.
+  </Step>
+</Steps>
+
+### Removing Empty Games
+
+Some PGN files contain game headers without moves. Remove these:
+
+<Steps>
+  <Step title="Access Advanced Tools">
+    Select the database and find the "Advanced Tools" section.
+  </Step>
+  
+  <Step title="Click Remove Empty">
+    Click "Remove Empty" to delete all games with zero moves.
+  </Step>
+</Steps>
+
+### Merging Players
+
+Player names may have variations (e.g., "Carlsen, M" vs "Carlsen, Magnus"). Merge them:
+
+<Steps>
+  <Step title="Find Merge Players Tool">
+    In Advanced Tools, locate the "Merge Players" section.
+  </Step>
+  
+  <Step title="Search for Player 1">
+    Use the search box to find the first player name.
+  </Step>
+  
+  <Step title="Search for Player 2">
+    Search for the second player name (the duplicate).
+  </Step>
+  
+  <Step title="Merge">
+    Click the merge button (→) to combine all games under the first player's name.
+  </Step>
+</Steps>
+
+<Note>
+  Player merging is permanent. All games attributed to Player 2 will be reassigned to Player 1.
+</Note>
+
+## Backup Strategies
+
+### Manual Backups
+
+1. **Locate Database Folder**: Click the folder icon next to "Databases" to open the storage directory
+2. **Copy `.db3` Files**: Copy your database files to a backup location
+3. **Schedule Regular Backups**: Especially important for custom databases with annotations
+
+### Export as PGN
+
+For long-term archival:
+- Export databases to PGN format (universal standard)
+- PGN files can be reimported or opened in any chess software
+- Consider compressing with `.zst` for storage efficiency
+
+## Exploring Database Content
+
+### Opening a Database
+
+Double-click any database card to open the database explorer with three views:
+
+1. **Games View**: Browse and filter all games
+2. **Players View**: See player statistics and their games
+3. **Tournaments View**: Explore events and competitions
+
+### Reference Databases
+
+Mark a database as "Reference" (star icon) to:
+- Display opening statistics in analysis
+- Show game continuations from master games
+- View win/draw/loss percentages for positions
+
+<Tip>
+  Use a large, high-quality database (like the Lichess database) as your reference for best results.
+</Tip>
+
+## Troubleshooting
+
+### Database Won't Load
+
+If a database shows an error:
+- **Check the error message**: Hover over or select the database to see details
+- **File corruption**: Try re-importing from the original PGN
+- **Format issues**: Ensure the PGN file is valid
+
+### Slow Performance
+
+- **Enable indexing**: Essential for databases over 10,000 games
+- **Remove duplicates**: Reduces database size and improves speed
+- **Check disk space**: Ensure adequate space for indexing operations
+
+### Import Errors
+
+- **Verify PGN format**: Open the file in a text editor to check for corruption
+- **Try smaller batches**: Split very large PGN files into smaller chunks
+- **Check file encoding**: Ensure UTF-8 encoding
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Name Consistently" icon="tag">
+    Use clear, descriptive names that indicate the database content (e.g., "Lichess Elite 2023" rather than "db1").
+  </Card>
+  
+  <Card title="Index Large Databases" icon="sparkles">
+    Always enable indexing for databases with 10,000+ games to maintain fast query performance.
+  </Card>
+  
+  <Card title="Regular Maintenance" icon="wrench">
+    Periodically remove duplicates and empty games to keep databases clean and efficient.
+  </Card>
+  
+  <Card title="One Reference Database" icon="star">
+    Mark only your most comprehensive database as the reference to avoid conflicting statistics.
+  </Card>
+</CardGroup>

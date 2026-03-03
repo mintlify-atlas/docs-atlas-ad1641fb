@@ -1,0 +1,135 @@
+---
+title: Engine analysis
+description: Analyze positions with multiple chess engines and UCI protocol support
+---
+
+En Croissant provides powerful chess engine analysis capabilities with support for multiple engines running simultaneously. Analyze positions to find the best moves, evaluate positions, and understand complex tactical sequences.
+
+## Multi-engine analysis
+
+Run multiple chess engines at the same time to compare evaluations and find the best moves from different perspectives.
+
+<Steps>
+  <Step title="Load engines">
+    Click **Manage Engines** in the analysis panel to configure which engines to use. You can enable multiple engines simultaneously.
+  </Step>
+  <Step title="Start analysis">
+    Click the play button on each engine to start analysis. The engine will begin evaluating the current position and display the best moves.
+  </Step>
+  <Step title="Compare evaluations">
+    View evaluations from multiple engines side-by-side. Each engine shows its evaluation, depth, and top moves with different colored arrows on the board.
+  </Step>
+</Steps>
+
+### Engine summary cards
+
+When multiple engines are running, a summary bar displays at the top showing:
+- Engine name (abbreviated if more than 3 engines)
+- Current evaluation for each engine
+- Color-coded indicators (blue, green, red, yellow for first 4 engines)
+
+## Analysis panel features
+
+The analysis panel provides detailed information about each engine's evaluation:
+
+### Best moves display
+
+Each engine shows multiple candidate moves (based on MultiPV setting):
+- **Move notation**: The best moves in standard algebraic notation
+- **Evaluation**: Centipawn evaluation or mate in X moves
+- **Principal variation**: The expected continuation after each move
+- **Depth**: How deep the engine has analyzed
+- **Speed**: Nodes per second (n/s)
+
+### Interactive controls
+
+<Tabs>
+  <Tab title="Engine controls">
+    - **Play/Pause**: Start or stop analysis for individual engines
+    - **Threat mode**: Check opponent's threats by analyzing their best moves
+    - **Pin above notation**: Keep engine analysis visible while navigating moves
+    - **Drag to reorder**: Rearrange engines by dragging the grip handle
+  </Tab>
+  <Tab title="Global controls">
+    - **Enable/disable all**: Control all engines at once with the master play/pause button
+    - **Engine selection**: Choose which engines to display from a dropdown
+    - **Manage engines**: Navigate to engine settings page
+  </Tab>
+</Tabs>
+
+## Engine settings
+
+Configure each engine's analysis parameters:
+
+### Core settings
+
+- **Number of lines (MultiPV)**: How many best move candidates to display simultaneously (default: 1)
+- **Number of cores (Threads)**: CPU threads allocated to the engine for parallel processing
+- **Size of hash**: Memory allocated for transposition tables (in MB)
+
+### Analysis modes
+
+Choose how the engine analyzes positions:
+
+- **Infinite**: Analyze until manually stopped
+- **Fixed depth**: Analyze to a specific depth
+- **Time-based**: Analyze for a fixed duration
+
+<Info>
+  Settings can be synced globally or configured per-tab. Enable **Sync globally** to apply settings across all tabs.
+</Info>
+
+## UCI engine protocol
+
+En Croissant uses the Universal Chess Interface (UCI) protocol to communicate with chess engines. This industry-standard protocol allows:
+
+- **Engine compatibility**: Works with any UCI-compatible engine (Stockfish, Komodo, Leela Chess Zero, etc.)
+- **Standardized communication**: Consistent interface across different engines
+- **Advanced configuration**: Access engine-specific options through UCI parameters
+
+### Adding engines
+
+Navigate to the engines page to:
+1. Add local UCI engines from your system
+2. Configure remote engines via API
+3. Set default parameters for each engine
+4. Test engine compatibility
+
+## Tablebase support
+
+For endgame positions with 7 pieces or fewer, En Croissant queries online tablebases to show perfect play:
+
+- **Automatic detection**: Tablebase info appears automatically for qualifying positions
+- **Outcome display**: Shows whether the position is winning, losing, or drawn
+- **DTZ/DTM information**: Distance to zeroing move or mate for each candidate move
+- **Move recommendations**: All moves sorted by outcome (wins first, then draws, then losses)
+
+<Tip>
+  Tablebase information is fetched from online sources and appears in the analysis panel when applicable.
+</Tip>
+
+## Report generation
+
+The **Report** tab analyzes entire games to identify:
+- Mistakes, blunders, and inaccuracies
+- Missed opportunities
+- Critical positions
+- Overall game quality
+
+## Engine logs
+
+The **Logs** tab displays raw UCI communication between En Croissant and engines:
+- Commands sent to engines
+- Responses received
+- Useful for debugging engine issues
+
+<Note>
+  Engine logs are available when at least one engine is loaded.
+</Note>
+
+## Performance tips
+
+- **Limit concurrent engines**: Running too many engines may slow analysis
+- **Adjust hash size**: Larger hash tables improve analysis quality but use more RAM
+- **Use appropriate depth**: Infinite analysis continues improving evaluations over time
+- **Disable when not needed**: Pause engines when navigating through games to save resources

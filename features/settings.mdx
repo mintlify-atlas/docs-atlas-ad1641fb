@@ -1,0 +1,332 @@
+---
+title: Application Settings
+description: Customize En Croissant's appearance, behavior, and preferences
+---
+
+En Croissant offers extensive customization options to tailor the chess experience to your preferences. All settings are organized into categories and include a powerful search feature.
+
+## Accessing Settings
+
+Open Settings from the main menu. Use the search bar (Cmd/Ctrl+F) to quickly find specific settings.
+
+## Board Settings
+
+Customize how the chess board appears and behaves:
+
+### Visual Indicators
+
+**Piece Destinations**
+- Shows legal move highlights when selecting a piece
+- Displays dots on available squares
+- Default: On
+
+**Move Highlight**
+- Highlights the last move played
+- Shows source and destination squares
+- Default: On
+
+**Coordinates**
+- Display board coordinates (a-h, 1-8)
+- Options: None, Edge only, All squares
+- Default: None
+
+### Arrows and Annotations
+
+**Show Arrows**
+- Display arrows for move suggestions and analysis
+- Default: On
+
+**Variation Arrows**
+- Show arrows for alternative variations
+- Helps visualize branching move trees
+- Default: Off
+
+**Snap Arrows**
+- Arrows snap to piece centers for cleaner appearance
+- Default: On
+
+**Consecutive Arrows**
+- Display multiple consecutive moves as connected arrows
+- Default: Off
+
+**Erase Drawables on Click**
+- Clear arrows and shapes when clicking the board
+- Default: Off
+
+### Move Behavior
+
+**Move Method**
+- **Drag**: Drag pieces to move
+- **Click**: Click source then destination
+- **Both**: Support both methods
+- Default: Both
+
+**Move Notation**
+- **Letters**: Display moves as letters (e.g., N, B, R)
+- **Symbols**: Display moves as piece symbols (♘, ♗, ♖)
+- Default: Symbols
+
+**Auto-Promotion**
+- Automatically promote pawns to Queen
+- Disable to choose promotion piece
+- Default: On
+
+**Scroll Through Moves**
+- Use mouse wheel to navigate through moves
+- Scroll on the board to move forward/backward
+- Default: On
+
+### Board Features
+
+**Preview Board on Hover**
+- Show position preview when hovering over moves
+- Appears as a small popup board
+- Default: On
+
+**Material Display**
+- **Difference**: Show material advantage only
+- **All**: Show all captured pieces
+- Default: Difference
+
+**Auto-Save**
+- Automatically save changes to games and files
+- Default: On
+
+## Input Settings
+
+Configure how you interact with the application:
+
+**Text Move Input**
+- Enable typing moves in algebraic notation (e.g., Nf3, e4)
+- Useful for rapid input without mouse
+- Default: Off
+
+**Spell Check**
+- Enable spell checking in text fields and comments
+- Default: Off
+
+## Appearance Settings
+
+Customize the visual theme and interface:
+
+### Theme
+
+**Color Scheme**
+- **Light**: Bright interface
+- **Dark**: Dark interface
+- **System**: Match OS preference
+- Default: System
+
+### Customization
+
+**Piece Set**
+- Choose from multiple piece designs:
+  - Staunty (default)
+  - Many other artistic styles available
+- Click to preview and select
+
+**Board Image**
+- Select board texture and color scheme
+- Options include:
+  - Gray (default)
+  - Blue, Brown, Green, etc.
+  - Wood textures
+  - Custom images
+
+**Accent Color**
+- Primary color used throughout the interface
+- Choose from Mantine color palette:
+  - Blue (default), Red, Green, Purple, Orange, etc.
+- Affects buttons, highlights, and UI elements
+
+### Typography
+
+**Font Size**
+- Adjust text size throughout the application
+- Range: 75% to 150%
+- Default: 100%
+- Affects all UI text and move notation
+
+### Localization
+
+**Language**
+- Available languages:
+  - English (US/UK)
+  - Français
+  - Español
+  - Deutsch
+  - Italiano
+  - Portuguese
+  - Polish
+  - Russian
+  - Ukrainian
+  - Belarusian
+  - Turkish
+  - 한국어 (Korean)
+  - 中文 (Chinese Simplified/Traditional)
+  - Norsk bokmål
+- Default: System language or English
+
+### Window Settings (Windows only)
+
+**Title Bar**
+- **Native**: Use Windows native title bar
+- **Custom**: Use En Croissant styled title bar
+- Default: Custom
+
+## Sound Settings
+
+Configure audio feedback:
+
+**Volume**
+- Master volume for all sounds
+- Range: 0% (mute) to 100%
+- Default: 80%
+
+**Sound Collection**
+- Choose sound theme for moves and events
+- Options:
+  - Standard (default)
+  - Other collections available
+- Includes sounds for: moves, captures, checks, game end
+
+## Keyboard Shortcuts
+
+Customize keybindings for common actions:
+
+### Available Keybinds
+
+- Navigate moves (forward/backward)
+- Jump to start/end of game
+- Flip board
+- Toggle analysis
+- Start/stop engine
+- Enter/exit variations
+- Add comments and annotations
+- And many more...
+
+### Editing Shortcuts
+
+1. Click the keybind field
+2. Press your desired key combination
+3. Changes save automatically
+
+**Reset All Keybinds**
+- Click the reset icon to restore defaults
+- Individual keybinds can be cleared
+
+<Info>
+  Keybindings support modifiers: Ctrl, Alt, Shift, and combinations. Use platform-appropriate keys (Cmd on macOS, Ctrl on Windows/Linux).
+</Info>
+
+## Directory Settings
+
+Configure where En Croissant stores different types of files:
+
+### Files Directory
+
+**Purpose**: PGN files, repertoires, tournaments
+**Default**: Platform-specific documents folder
+
+Click to select a custom directory.
+
+### Databases Directory
+
+**Purpose**: Game databases, imported games
+**Default**: Platform-specific data folder
+**Format**: SQLite databases
+
+Change this to move your database collection.
+
+### Engines Directory
+
+**Purpose**: Chess engine executables and configurations
+**Default**: Platform-specific data folder
+
+Stores:
+- Engine binaries
+- Engine settings (engines.json)
+- Downloaded engines
+
+### Puzzles Directory
+
+**Purpose**: Puzzle databases for training
+**Default**: Platform-specific data folder
+
+Contains SQLite databases with tactical puzzles.
+
+<Warning>
+  Changing directories does not move existing files. You'll need to manually move files to the new location or re-import content.
+</Warning>
+
+## Repertoire Settings
+
+**Coverage Minimum Games**
+- Minimum number of games required to show a move in repertoire coverage analysis
+- Range: 1-1000 games
+- Default: 50 games
+- Higher values = more reliable statistics but less coverage
+
+## Privacy Settings
+
+**Telemetry**
+- Enable/disable anonymous usage analytics
+- Default: On
+- Helps improve En Croissant
+
+Telemetry data includes:
+- Feature usage statistics
+- Error reports
+- Performance metrics
+
+Telemetry does NOT include:
+- Game content
+- Personal information
+- Account credentials
+
+<Info>
+  You can opt out of telemetry at any time. Your choice is respected immediately.
+</Info>
+
+## Advanced Settings (Anarchy Mode)
+
+**Forced En Croissant**
+- Enforces capturing en passant when available
+- A playful reference to the app name
+- Default: Off
+- When enabled, en passant is mandatory (like in Anarchy Chess)
+
+## Searching Settings
+
+Use the search bar at the top of Settings to quickly find options:
+
+- **Cmd/Ctrl+F**: Focus search
+- **Escape**: Clear search
+- Searches: titles, descriptions, categories, keywords
+
+Search results are grouped by category with highlighting.
+
+## Settings Storage
+
+All settings are stored locally:
+
+- **Location**: Browser localStorage
+- **Format**: JSON with Zod schema validation
+- **Persistence**: Settings survive app restarts
+- **Export**: Settings are not currently exportable (feature coming soon)
+
+## Platform-Specific Defaults
+
+Some defaults vary by platform:
+
+- **macOS**: Uses Cmd instead of Ctrl for shortcuts
+- **Windows**: Includes native/custom title bar option
+- **Linux**: Standard Ctrl-based shortcuts
+
+## Applying Settings
+
+Most settings apply immediately without restart. Some settings that require restart:
+
+- Language changes (may require reload)
+- Directory changes (effective for new files)
+- Title bar style (Windows only)

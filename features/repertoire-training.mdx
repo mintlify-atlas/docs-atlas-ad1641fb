@@ -1,0 +1,192 @@
+---
+title: Repertoire training
+description: Build and practice your opening repertoire with spaced repetition
+---
+
+En Croissant includes a powerful repertoire training system that helps you memorize and practice your opening lines using scientifically-proven spaced repetition algorithms.
+
+## Building a repertoire
+
+Create your opening repertoire by building a tree of moves in the board editor:
+
+<Steps>
+  <Step title="Create opening file">
+    Start a new analysis tab or open an existing PGN file with your repertoire lines.
+  </Step>
+  <Step title="Add moves to your tree">
+    Play through your opening variations. Each branch represents a different line in your repertoire.
+  </Step>
+  <Step title="Set orientation">
+    In the file headers, set your color (white or black) to determine which moves you'll practice.
+  </Step>
+  <Step title="Switch to practice panel">
+    Open the practice panel and navigate to the **Train** tab to begin.
+  </Step>
+</Steps>
+
+### Build tab
+
+The **Build** tab in the practice panel helps you construct your repertoire:
+
+- View repertoire structure and statistics
+- See reference database games for positions
+- Identify gaps in your preparation
+- Add new lines based on common responses
+
+## Spaced repetition system
+
+En Croissant uses the **FSRS (Free Spaced Repetition Scheduler)** algorithm powered by the `ts-fsrs` library. This modern spaced repetition algorithm optimizes your practice sessions:
+
+### How it works
+
+1. **New positions**: Added to your deck when you build your repertoire
+2. **Practice sessions**: You try to recall the correct move for each position
+3. **Quality rating**: After each correct move, rate how difficult it was
+4. **Scheduling**: The algorithm schedules the next review based on your rating
+
+### Rating system
+
+After making the correct move, rate the difficulty:
+
+<Tabs>
+  <Tab title="Again">
+    **Keyboard: 1**
+    
+    You forgot the move or it was very difficult. The position will be shown again very soon.
+  </Tab>
+  <Tab title="Hard">
+    **Keyboard: 2**
+    
+    You remembered with significant difficulty. Shorter interval until next review.
+  </Tab>
+  <Tab title="Good">
+    **Keyboard: 3**
+    
+    You remembered with some effort. Standard interval based on card history.
+  </Tab>
+  <Tab title="Easy">
+    **Keyboard: 4**
+    
+    You remembered instantly. Longer interval until next review.
+  </Tab>
+</Tabs>
+
+<Info>
+  Each rating shows the next review time so you can see how your rating affects the schedule.
+</Info>
+
+## Training workflow
+
+The practice panel provides a complete training experience:
+
+### Train tab
+
+#### Progress tracking
+
+View your repertoire statistics:
+
+- **Practiced**: Positions you've seen at least once (blue)
+- **Due**: Positions scheduled for review now (yellow)
+- **Unseen**: New positions not yet practiced (gray)
+- **Progress bar**: Visual representation of your repertoire mastery
+
+#### Session statistics
+
+Track your current practice session:
+
+- **Correct**: Moves you got right
+- **Incorrect**: Moves you missed
+- **Accuracy**: Percentage of correct moves in the session
+- **Streak**: Current consecutive correct moves
+
+<Tip>
+  Try to maintain a high streak by consistently practicing. The flame icon shows your current streak!
+</Tip>
+
+### Practice states
+
+<Steps>
+  <Step title="Start practice">
+    Click **Start Practice** to begin. The button shows how many positions are due or unseen.
+  </Step>
+  <Step title="Make your move">
+    The position loads with opponent's move already played. Make your prepared move on the board.
+  </Step>
+  <Step title="Correct move">
+    If correct, rate the difficulty (1-4). If incorrect, the correct move is shown.
+  </Step>
+  <Step title="Next position">
+    The next position loads automatically (or click Next Position if you missed the move).
+  </Step>
+</Steps>
+
+#### Incorrect moves
+
+When you make a wrong move:
+- The correct move is displayed
+- You can navigate to see the correct continuation
+- Press Space or click **Next Position** to continue
+- The position is not added to review schedule (you'll see it again soon)
+
+## Deck synchronization
+
+Your practice deck automatically syncs with changes to your repertoire tree:
+
+- **Added lines**: New positions appear in your deck automatically
+- **Removed lines**: Deleted positions are removed from the deck
+- **Modified lines**: Changes are reflected with minimal disruption
+- **Sync notification**: You'll see a message showing what changed
+
+<Note>
+  When you add or remove moves from your repertoire, the deck updates automatically without losing your practice progress.
+</Note>
+
+## Advanced features
+
+### Viewing all positions
+
+Click **Show All** to see every position in your deck:
+
+- Status badge (Unseen, Due, or Practiced)
+- Next review date
+- Move notation
+- Jump directly to any position
+
+### Practice logs
+
+Click **Show Logs** to review your training history:
+
+- All past reviews with ratings
+- Timestamp for each review
+- Difficulty rating you gave
+- Navigate to positions from logs
+
+### Resetting progress
+
+Click **Reset** to:
+- Clear all practice history
+- Reset all cards to "New" status
+- Start fresh with your repertoire
+
+<Warning>
+  Resetting progress is permanent and cannot be undone. All your practice history will be lost.
+</Warning>
+
+## Best practices
+
+1. **Consistent practice**: Review due positions daily for best retention
+2. **Honest ratings**: Rate difficulty accurately for optimal scheduling
+3. **Complete repertoire**: Add all your lines before starting intensive practice
+4. **Regular updates**: Add new lines as you expand your repertoire
+5. **Review completions**: When all positions are practiced, come back when cards are due
+
+### When you're done
+
+When you've practiced all due positions, you'll see:
+- Congratulations message
+- Next review date showing when positions become due again
+- Option to start a new session to review more
+
+<Tip>
+  The spaced repetition algorithm optimizes review timing. Trust the schedule and review positions when they become due for maximum retention.
+</Tip>
