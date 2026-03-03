@@ -1,0 +1,117 @@
+{
+  "projectType": "saas",
+  "projectName": "En Croissant",
+  "projectDescription": "An open-source, cross-platform chess GUI for game analysis, database management, and repertoire training",
+  "theme": "palm",
+  "primaryColor": "#D4A574",
+  "lightColor": "#F5E6D3",
+  "darkColor": "#8B6914",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Get Started",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Core Features",
+        "groups": [
+          {
+            "group": "Game Management",
+            "pages": [
+              "features/games-and-databases",
+              "features/importing-games",
+              "features/database-search"
+            ]
+          },
+          {
+            "group": "Analysis & Training",
+            "pages": [
+              "features/engine-analysis",
+              "features/repertoire-training",
+              "features/puzzles"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "features/engines",
+              "features/accounts",
+              "features/settings"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "User Guides",
+            "pages": [
+              "guides/managing-databases",
+              "guides/analyzing-games",
+              "guides/building-repertoire",
+              "guides/engine-configuration",
+              "guides/keyboard-shortcuts"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Advanced",
+        "groups": [
+          {
+            "group": "Development",
+            "pages": [
+              "advanced/architecture",
+              "advanced/building-from-source",
+              "advanced/contributing"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Resources",
+        "groups": [
+          {
+            "group": "Support",
+            "pages": [
+              "resources/faq",
+              "resources/community",
+              "resources/troubleshooting"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Store and analyze games from Lichess.org and Chess.com",
+    "Multi-engine analysis with UCI engine support",
+    "Repertoire preparation with spaced repetition training",
+    "Advanced position and database search",
+    "Chess puzzle solving and practice",
+    "Simple engine and database management",
+    "Cross-platform desktop application (Windows, macOS, Linux)"
+  ],
+  "publicApiSurface": [
+    "Game import from Lichess/Chess.com",
+    "PGN file management",
+    "UCI engine integration",
+    "Database operations (create, search, analyze)",
+    "Repertoire training system",
+    "Position analysis and evaluation",
+    "Puzzle database",
+    "OAuth integration for chess platforms",
+    "File system operations for chess databases",
+    "Opening book management"
+  ]
+}
